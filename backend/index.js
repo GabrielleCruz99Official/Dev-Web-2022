@@ -9,7 +9,20 @@ app.get('/', (req, res) => {
 });
 
 app.get("/api", (req, res)=>{
-    res.json({ message: "Hi! This is the server!" });
+    res.json({ message: "Hi! This is the API!" });
+});
+
+app.get("/products", (req, res) => {
+    res.json({ message: "Products List" });
+});
+
+//à revoir
+app.post("/register", (req, res) =>{
+    res.json({ message: "Register" });
+});
+
+app.post("login", (req, res) => {
+    res.json({ message: "Login" });
 });
 
 app.listen(PORT, () => {

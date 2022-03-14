@@ -8,25 +8,22 @@ function App() {
   useEffect(() => {
     fetch('/api')
     .then((res) => res.json())
-    .then((data) => setData(data.message));
+    .then((data) => setData(data.message))
+    .catch(err => {console.log("Loading error.")});
   }, []);
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          {!data ? "Loading..." : data}
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <nav className="navbar navbar-light">
+        <a href="/">Home</a>
+        <a href="/products">Products</a>
+        <a href="/store">Store</a>
+        <a href="/register">Register</a>
+      </nav>
+      <div>
+        <h1>Hello!</h1>
+        <h2>{!data ? "Loading..." : data}</h2>
+      </div>
     </div>
   );
 }

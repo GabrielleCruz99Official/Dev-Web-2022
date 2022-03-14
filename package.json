@@ -19,6 +19,9 @@
   },
   "homepage": "https://github.com/GabrielleCruz99Official/Dev-Web-2022#readme",
   "dependencies": {
-    "express": "^4.17.3"
+    "bootstrap": "^5.1.3",
+    "express": "^4.17.3",
+    "mariadb": "^3.0.0",
+    "react-bootstrap": "^2.2.1"
   }
 }
