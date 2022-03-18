@@ -17,7 +17,6 @@ function App() {
       <nav className="navbar navbar-light">
         <a href="/">Home</a>
         <a href="/products">Products</a>
-        <a href="/store">Store</a>
         <a href="/register">Register</a>
       </nav>
       <div>
