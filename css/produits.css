@@ -1,0 +1,10 @@
+table{
+    width:80%;
+    margin-left: 10%;
+    margin-top: 2em;
+    background-color: blue;
+}
+
+tr{
+    height : 6em;
+}
