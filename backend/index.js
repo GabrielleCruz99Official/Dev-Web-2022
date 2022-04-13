@@ -5,8 +5,12 @@ const bodyParser = require("body-parser");
 require('dotenv').config();
 
 const PORT = process.env.PORT || 3001;
-
+const corsOptions = {
+    origin: "http://localhost:3001"
+}
 const app = express();
+app.use(cors(corsOptions));
+
 //permet le parsing de data du type json
 app.use(express.json());
 
@@ -25,6 +29,7 @@ const products = [
     {name: "Jumbo", duration: "12 months"},
 ];
 
+/* API */
 app.get("/api", (req, res)=>{
     res.json({ message: "Hi! This is the API!" });
 });
