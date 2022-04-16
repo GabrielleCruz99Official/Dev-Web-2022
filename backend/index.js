@@ -1,4 +1,5 @@
 const express = require("express");
+const db = require('./helpers/database');
 const path = require("path");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -30,14 +31,18 @@ const products = [
 ];
 
 /* API */
+
+// CALL API
 app.get("/api", (req, res)=>{
     res.json({ message: "Hi! This is the API!" });
 });
 
+// GET PRODUCTS
 app.get("/api/products", (req, res) => {
     res.json(products);
 });
 
+// GET USERS
 app.get("/api/users", (req, res) => {
     console.log("api/users called!");
     res.json(users);
