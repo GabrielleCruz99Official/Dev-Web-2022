@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export function Click(){
+function Click(){
     const [count, setCount] = useState(0);
 
     function countUp(){
@@ -12,14 +12,15 @@ export function Click(){
     }
 
     return(
-        <>
-            <div>
+        <div classname="App">
+            <div className="App">
                 <span>{count}</span>
             </div>
-            <div>
+            <div className="App">
                 <button onClick={countUp}>Up?</button>
                 <button onClick={countDown}>Down?</button>
             </div>
-        </>
+        </div>
     )
 }
+export default Click;

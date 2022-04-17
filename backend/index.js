@@ -1,5 +1,4 @@
 const express = require("express");
-const db = require('./helpers/database');
 const path = require("path");
 const cors = require("cors");
 const bodyParser = require("body-parser");
