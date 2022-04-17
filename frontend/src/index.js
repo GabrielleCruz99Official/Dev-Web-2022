@@ -1,13 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
 import App from './App';
+import Click from './components/Click'
+import Navbar from './components/common/Navbar';
+import About from './components/About';
 import reportWebVitals from './reportWebVitals';
+import Store from './components/Store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Navbar />
+      <div className="container mb-5">
+        <Routes>
+          <Route exact path="/" element={<App/>} />
+          <Route path="/about" element={<About/>} />
+          <Route path="/click" element={<Click/>} />
+          <Route path="/store" element={<Store/>} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

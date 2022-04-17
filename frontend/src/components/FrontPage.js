@@ -3,7 +3,7 @@ import React from 'react';
 function FrontPage(){
     return(
         <div>
-            <h1>Lols</h1>
+            <p>Welcome to the Front Page!</p>
         </div>
     )
 }
