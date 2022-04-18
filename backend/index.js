@@ -3,6 +3,7 @@ const path = require("path");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 require('dotenv').config();
+const stripe = require('stripe')('');// clé secrete de le stripe pour le link *em
 
 const PORT = process.env.PORT || 3001;
 const corsOptions = {
@@ -59,6 +60,11 @@ app.post("/api/login", (req, res) => {
 app.post("/api/logout", (req, res) => {
     res.json({ message: "Logout" })
 });
+
+app.set('view engine', 'ejs');
+app.engine('html', require('ejs').renderFile); //config pour lire les fichiers HTML *em
+
+app.use(express.static(path.join(__dirname, './views'))); 
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
