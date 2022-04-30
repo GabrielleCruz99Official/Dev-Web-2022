@@ -1,8 +1,10 @@
 import React from 'react';
+import Countdown from './Countdown';
 
-function About(){
+function FrontPage(){
     return(
-        <div>
+        <div className="App">
+            <h1>Sensoria</h1>
             <div className="card">
                 <div className="card-body">
                 <h5 className="card-title">Explication du concept</h5>
@@ -16,8 +18,9 @@ function About(){
                     </p>
                 </div>
             </div>
+            <Countdown />
         </div>
     )
 }
 
-export default About;
+export default FrontPage;
