@@ -14,9 +14,11 @@ function Navbar(){
                         height="50"
                     />
                 </Link>
-                <Link to="/about">About Us</Link>
-                <Link to="/click">Click</Link>
-                <Link to="/store">Store</Link>
+                <Link to="/about">Notre Concept</Link>
+                <Link to="/store">S'abonner</Link>
+                <Link to="/contact">Contactez-nous</Link>
+                <Link to="/demo">Exemples du BOX</Link>
+                <Link to="/client">Espace Client</Link>
             </div>
         </nav>
     )

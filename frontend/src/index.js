@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
 import App from './App';
-import Click from './components/Click'
 import Navbar from './components/common/Navbar';
 import About from './components/About';
 import reportWebVitals from './reportWebVitals';
 import Store from './components/Store';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -18,8 +18,10 @@ root.render(
         <Routes>
           <Route exact path="/" element={<App/>} />
           <Route path="/about" element={<About/>} />
-          <Route path="/click" element={<Click/>} />
           <Route path="/store" element={<Store/>} />
+          <Route path="/client" element={<App/>} />
+          <Route path="/contact" element={<App/>} />
+          <Route path="/demo" element={<App/>} />
         </Routes>
       </div>
     </BrowserRouter>
