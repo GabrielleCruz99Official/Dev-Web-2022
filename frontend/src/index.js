@@ -1,19 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import Navbar from './components/common/Navbar';
-import About from './components/About';
 import reportWebVitals from './reportWebVitals';
+<<<<<<< HEAD
 import Store from './components/Store';
 import OrderPage from './components/OrderPage';
+=======
+import 'bootstrap/dist/css/bootstrap.min.css';
+>>>>>>> dev
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Navbar />
+<<<<<<< HEAD
       <div className="container mb-5">
         <Routes>
           <Route exact path="/" element={<App/>} />
@@ -24,6 +28,9 @@ root.render(
           <Route path="/order" element={<OrderPage/>} />
         </Routes>
       </div>
+=======
+      <App />
+>>>>>>> dev
     </BrowserRouter>
   </React.StrictMode>
 );
