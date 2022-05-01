@@ -36,3 +36,64 @@
     transform: rotate(360deg);
   }
 }
+
+.expired-notice {
+  padding: 2rem;
+  border: 1px solid #ebebeb;
+  border-radius: 0.25rem;
+  margin: 0.5rem;
+}
+
+.expired-notice > span {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: red;
+}
+
+.expired-notice > p {
+  font-size: 1.5rem;
+}
+
+.timer {
+  display: flex;
+  justify-content: space-around;
+}
+
+.show-counter {
+  padding: 0.5rem;
+}
+
+.show-counter .timer-link {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  padding: 0.5rem;
+  border: 1px solid #ebebeb;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  color: #000;
+}
+
+.show-counter .timer {
+  line-height: 1.25rem;
+  padding: 0 0.75rem 0 0.75rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.show-counter .timer.danger {
+  color: #ff0000;
+}
+
+.show-counter .timer > p {
+  margin: 0;
+}
+
+.show-counter .timer > span {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
