@@ -5,32 +5,14 @@ import './index.css';
 import App from './App';
 import Navbar from './components/common/Navbar';
 import reportWebVitals from './reportWebVitals';
-<<<<<<< HEAD
-import Store from './components/Store';
-import OrderPage from './components/OrderPage';
-=======
 import 'bootstrap/dist/css/bootstrap.min.css';
->>>>>>> dev
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Navbar />
-<<<<<<< HEAD
-      <div className="container mb-5">
-        <Routes>
-          <Route exact path="/" element={<App/>} />
-          <Route path="/about" element={<About/>} />
-          <Route path="/store" element={<Store/>} />
-          <Route path="/login" element={<About/>} />
-          <Route path="/register" element={<About/>} />
-          <Route path="/order" element={<OrderPage/>} />
-        </Routes>
-      </div>
-=======
       <App />
->>>>>>> dev
     </BrowserRouter>
   </React.StrictMode>
 );
