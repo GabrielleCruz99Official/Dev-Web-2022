@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import About from './components/About';
-import Store from './components/Store';
+import Store from './components/storepage/Store';
 import FrontPage from './components/frontpage/FrontPage';
 
 function App() {
