@@ -1,0 +1,25 @@
+.title.front-page{
+    font-family: "Segoe Print", sans-serif;
+    color: goldenrod;
+}
+
+.front-page{
+    background-color: gray;
+    font-family: "Segoe Script", sans-serif;
+    color: goldenrod;
+    text-align: center;
+}
+
+
+h5{
+    font-family: "Segoe Print", sans-serif;
+    color: goldenrod;
+}
+
+.card{
+    width: 100%;
+}
+
+p{
+    font-family: "MV Boli", sans-serif;
+}
