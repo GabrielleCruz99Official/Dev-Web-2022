@@ -1,11 +1,12 @@
 import React from 'react';
 import CountdownTimer from './countdown/CountdownTimer';
+import './FrontPage.css';
 
 function FrontPage(){
     return(
-        <div className="App">
-            <h1>Sensoria</h1>
-            <div className="card">
+        <div className="App front-page">
+            <h1 className="title front-page">Sensoria</h1>
+            <div className="card bg-dark front-page">
                 <div className="card-body">
                 <h5 className="card-title">Explication du concept</h5>
                     <p className="card-body">
@@ -18,7 +19,7 @@ function FrontPage(){
                     </p>
                 </div>
             </div>
-            <div className="card">
+            <div className="card bg-dark front-page">
                 <h5 className="card-title">Box du Mois</h5>
                 <CountdownTimer targetDate={new Date().getTime() + (3 * 24 * 60 * 60 * 1000)} />
                 <div className="card-body">

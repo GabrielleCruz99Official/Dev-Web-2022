@@ -7,17 +7,16 @@ import FrontPage from './components/frontpage/FrontPage';
 
 function App() {
   return (
-    <>
-    <div className="container mb-5">
-        <Routes>
-          <Route exact path="/" element={<FrontPage/>} />
-          <Route path="/about" element={<About/>} />
-          <Route path="/store" element={<Store/>} />
-          <Route path="/client" element={<FrontPage/>} />
-          <Route path="/contact" element={<FrontPage/>} />
-          <Route path="/demo" element={<FrontPage/>} />
-        </Routes>
-      </div></>
+    <div className="App">
+      <Routes>
+        <Route exact path="/" element={<FrontPage/>} />
+        <Route path="/about" element={<About/>} />
+        <Route path="/store" element={<Store/>} />
+        <Route path="/client" element={<FrontPage/>} />
+        <Route path="/contact" element={<FrontPage/>} />
+        <Route path="/demo" element={<FrontPage/>} />
+      </Routes>
+    </div>
   );
 }
 
