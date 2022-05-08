@@ -1,0 +1,20 @@
+.store {
+    display: grid;
+}
+
+.item {
+    display: flex;
+    justify-content: space-around;
+    flex-flow: row;
+    max-height: 15rem;
+}
+
+.link {
+    color: snow;
+}
+
+.store-title {
+    align-items: center;
+    font-family: "Segoe Print", sans-serif;
+    color: goldenrod;
+}
