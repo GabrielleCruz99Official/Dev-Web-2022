@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 let products = [
-    {name: "Mini", duration: "3 months"},
-    {name: "Regular", duration: "6 months"},
-    {name: "Jumbo", duration: "12 months"},
+    {name: "Starter", films: 1, price: 40, duration: "3 months"},
+    {name: "Pro", films: 3, price: 80, duration: "6 months"},
+    {name: "Ultimate", films: 6, price: 120, duration: "12 months"},
 ];
 
 router.get('/', (req, res) => {
