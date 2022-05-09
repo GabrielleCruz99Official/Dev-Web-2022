@@ -1,42 +1,53 @@
-import React, {useState} from "react";
-import { Link } from "react-router-dom";
+import React, {useState} from 'react';
+import {Link} from 'react-router-dom';
 
-function Login(){
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-
-    const onSubmit = async (e) => {
+function Register(){
+    const [usernameReg, setUsernameReg] = useState('');
+    const [userEmailReg, setUserEmailReg] = useState('');
+    const [passwordReg, setPasswordReg] = useState('');
+    
+    const registerUser = async (e) => {
         e.preventDefault();
     }
-    
+
     return(
         <>
             <div className="App">
                 <div className="card bg-secondary">
                     <h4 className="card-title">Login</h4>
                     <div className="card-body d-flex justify-content-center from-container">
-                        <form onSubmit={onSubmit}>
+                        <form onSubmit={registerUser}>
                             <div className="input-group mb-3">
                                 <input 
                                     type="text" className="form-control" 
                                     placeholder="Username"
                                     aria-label="Username" 
                                     onChange={(e) => {
-                                        setUsername(e.target.value);
+                                        setUsernameReg(e.target.value);
+                                    }}
+                                />
+                            </div>
+                            <div className="input-group mb-3">
+                                <input 
+                                    type="text" className="form-control" 
+                                    placeholder="Email"
+                                    aria-label="Email" 
+                                    onChange={(e) => {
+                                        setUserEmailReg(e.target.value);
                                     }}
                                 />
                             </div>
                             <div className="input-group mb-3">
                                 <input type="text" className="form-control" 
-                                    placeholder="Password"
+                                    placeholder="Password"  
                                     aria-label="Password"
                                     onChange={(e) => {
-                                        setPassword(e.target.value);
+                                        setPasswordReg(e.target.value);
                                     }}
                                 />
                             </div>
-                            <Link className="links" to="/register">
-                                <p>New client? Click here to register.</p>
+                            <Link className="links" to="/login">
+                                <p>Have an account? Click here to login.</p>
                             </Link>
                             <input className="btn btn-primary" type="submit" value="Login"/>
                         </form>
@@ -47,4 +58,4 @@ function Login(){
     );
 }
 
-export default Login;
+export default Register;
