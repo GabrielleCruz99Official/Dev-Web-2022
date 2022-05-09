@@ -6,6 +6,7 @@ const stripe = require('stripe')('');// clé secrete de le stripe pour le link *
 
 const users = require('./routes/user');
 const products = require('./routes/product');
+const payments = require('./routes/payment');
 
 const PORT = process.env.PORT || 3001;
 const corsOptions = {
@@ -29,6 +30,7 @@ app.get("/", (req, res)=>{
 
 app.use('/users', users);
 app.use('/products', products);
+app.use('/payments', payments);
 
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile); //config pour lire les fichiers HTML *em
