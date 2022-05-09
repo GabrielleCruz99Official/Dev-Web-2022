@@ -19,13 +19,15 @@ function Store(){
                     return(
                         <div className="card bg-secondary text-center" key={index}>
                             <div className='card-body'>
-                                <Link to="#" className="link">
-                                    <h5 className="card-title">{product.name} Box</h5>
-                                    <p>{product.films} film VR nasal</p>
-                                    <p>Les flacons nécessaires</p>
-                                    <p>1 casque en prêt</p>
-                                    <p>Durée: {product.duration}</p>
-                                    <span><strong>{product.price} €</strong></span>
+                                <h5 className="card-title">{product.name} Box</h5>
+                                <p>{product.films} film VR nasal</p>
+                                <p>Les flacons nécessaires</p>
+                                <p>1 casque en prêt</p>
+                                <p>Durée: {product.duration}</p>
+                                <Link to="/payment">
+                                    <button className="btn btn-dark btn-sm">
+                                        <strong>{product.price} €</strong>
+                                    </button>
                                 </Link>
                             </div>
                         </div>
