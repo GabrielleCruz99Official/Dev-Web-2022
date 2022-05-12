@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import About from './components/About';
-import Store from './components/Store';
+import Store from './components/storepage/Store';
 import FrontPage from './components/frontpage/FrontPage';
 import UserHub from './components/userpage/UserHub';
 import Login from './components/userpage/Login';
@@ -20,6 +20,7 @@ function App() {
         <Route path="/contact" element={<FrontPage/>} />
         <Route path="/demo" element={<FrontPage/>} />
         <Route path="/register" element={<Register/>} />
+        <Route path="/payment" element={<FrontPage/>} />
       </Routes>
     </div>
   );

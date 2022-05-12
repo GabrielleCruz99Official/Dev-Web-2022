@@ -1,20 +1,25 @@
 const express = require('express');
 const router = express.Router()
-require('dotenv').config;
 const pool = require('../helpers/database')
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken')
 
-/* Liste d'exemple des utilisateurs */
-// les mots de passe seront cryptées
-let users = [
-    {name: "Gab", role: "developer", username: "gab1", password: "gab123"},
-    {name: "Matt", role: "developer", username: "matt1", password: "matt123"},
-    {name: "Ryan", role: "client", username: "ryan1", password: "ryan123"}
-];
+router.get('/', async (req, res) => {
+    try{
+        const usersQuery = 'SELECT * FROM user;';
+        const rows = await pool.query(usersQuery);
+        res.status(200).json(rows);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+});
 
-router.get('/', async(req, res) => {
-    res.json(users);
+router.get('/:id', async (req, res) => {
+    try{
+        const userQuery = 'SELECT * FROM user WHERE UserID=?';
+        const rows = await pool.query(userQuery, req.params.id);
+        res.status(200).json(rows);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
 });
 
 router.post('/register', (req, res) => {
