@@ -22,29 +22,21 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.post('/register', (req, res) => {
-    // hard-coded
-    const user = req.body;
-    console.log(user);
-    users.push(user);
-
-    res.send("User added to database!");
-
-    //db call
-    pool.query(
-        "INSERT INTO user (UserName, UserEmail, UserPassword, AddressID, SubscriptionID) VALUES (?, ?, ?, ?, ?)",
-        [username, email, password, 1, 1],
-        (err, result) => {
-            console.log(err);
-        }
-    );
-
+router.post('/register', async (req, res) => {
+    try {
+        const {username, email, password} = req.body;
+        const registerQuery = 'INSERT INTO User(UserName, UserEmail, UserPassword) VALUES (?,?,?)';
+        const result = await pool.query(registerQuery, [username, email, password]);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
 });
 
 router.post('/login', (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
-    res.send(`Username: ${username} Password: ${password}`);
+    res.send(`Username: ${username} Password: ${password}`)
 });
 
 module.exports = router;
