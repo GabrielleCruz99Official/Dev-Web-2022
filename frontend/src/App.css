@@ -1,5 +1,10 @@
+.set-all {
+  object-fit: fill;
+}
+
 .App {
-  text-align: center;
+  height: 40rem;
+  width: 100%;
 }
 
 .App-logo {
@@ -7,32 +12,77 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: black;
 }
 
 .App-link {
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.expired-notice {
+  padding: 2rem;
+  border: 1px solid #ebebeb;
+  border-radius: 0.25rem;
+  margin: 0.5rem;
+}
+
+.expired-notice > span {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: red;
+}
+
+.expired-notice > p {
+  font-size: 1.5rem;
+}
+
+.timer {
+  display: flex;
+  justify-content: space-around;
+  font-family: "MV Boli", sans-serif;
+}
+
+.show-counter {
+  padding: 0.5rem;
+}
+
+.show-counter .timer-link {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  padding: 0.5rem;
+  border: 1px solid #ebebeb;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  color: #000;
+}
+
+.show-counter .timer {
+  line-height: 1.25rem;
+  padding: 0 0.75rem 0 0.75rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.show-counter .timer.danger {
+  color: #ff0000;
+}
+
+.show-counter .timer > p {
+  margin: 0;
+}
+
+.show-counter .timer > span {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  line-height: 1rem;
 }
