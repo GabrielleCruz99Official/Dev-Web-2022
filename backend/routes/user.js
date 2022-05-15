@@ -60,7 +60,6 @@ router.post('/login', async (req, res) => {
             const isValid = await bcrypt.compare(password, rows[0].UserPassword)
             res.status(200).json({validPassword: isValid});
         }   
-
     } catch(error) {
         res.status(400).send(error.message);
     }

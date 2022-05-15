@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
+import Axios from 'axios';
 import ValidationBadge from './ValidationBadge';
 
 function Register(){
@@ -33,8 +34,22 @@ function Register(){
     }, [password.inputPassword]);
     */
 
-    const registerUser = async (e) => {
+    const onSubmit = (e) => {
         e.preventDefault();
+        if(password.inputPassword === password.confirmPassword){
+            registerUser();
+        }
+    }
+
+    const registerUser = async () => {
+        Axios.post('http://localhost:3001/users/register',
+        {
+            username: usernameReg,
+            email: userEmailReg,
+            password: password.confirmPassword,
+        }).then((response)=>{
+            console.log(response)
+        })
     }
 
     return(
@@ -43,7 +58,7 @@ function Register(){
                 <div className="card bg-secondary">
                     <h4 className="card-title">Register</h4>
                     <div className="card-body d-flex justify-content-center from-container">
-                        <form onSubmit={registerUser}>
+                        <form onSubmit={onSubmit}>
                             <div className="input-group mb-3">
                                 <input 
                                     type="text" className="form-control" 

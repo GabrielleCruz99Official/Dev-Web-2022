@@ -1,12 +1,19 @@
 import React, {useState} from "react";
 import { Link } from "react-router-dom";
+import Axios from 'axios';
 
 function Login(){
-    const [username, setUsername] = useState('');
+    const [email, setUserEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const onSubmit = async (e) => {
         e.preventDefault();
+        Axios.post('http://localhost:3001/users/login', {
+            email: email,
+            password: password,
+        }).then((response) => {
+            console.log(response);
+        })
     }
     
     return(
@@ -19,15 +26,15 @@ function Login(){
                             <div className="input-group mb-3">
                                 <input 
                                     type="text" className="form-control" 
-                                    placeholder="Username"
-                                    aria-label="Username" 
+                                    placeholder="Email"
+                                    aria-label="Email" 
                                     onChange={(e) => {
-                                        setUsername(e.target.value);
+                                        setUserEmail(e.target.value);
                                     }}
                                 />
                             </div>
                             <div className="input-group mb-3">
-                                <input type="text" className="form-control" 
+                                <input type="password" className="form-control" 
                                     placeholder="Password"
                                     aria-label="Password"
                                     onChange={(e) => {
