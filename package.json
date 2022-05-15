@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node backend/index.js",
+    "dev": "nodemon backend/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,12 +20,16 @@
   },
   "homepage": "https://github.com/GabrielleCruz99Official/Dev-Web-2022#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
     "bootstrap": "^5.1.3",
     "cors": "^2.8.5",
     "create-react-app": "^5.0.1",
     "dotenv": "^16.0.0",
-    "express": "^4.17.3"
+    "express": "^4.17.3",
+    "global": "^4.4.0",
+    "jsonwebtoken": "^8.5.1",
+    "nodemon": "^2.0.16"
   },
   "devDependencies": {
     "mariadb": "^3.0.0"
