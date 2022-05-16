@@ -1,7 +1,12 @@
 const express = require('express');
 const router = express.Router()
+const config = require('../config/auth.conf')
 const pool = require('../helpers/database')
 const bcrypt = require('bcrypt');
+const bodyParser = require('body-parser');
+const saltRounds = 10;
+const jwt = require('jsonwebtoken');
+const tokenList = {};
 
 router.get('/', async (req, res) => {
     try{
@@ -36,7 +41,7 @@ router.post('/register', async (req, res) => {
             res.status(400).json({message: 'Email already registered'});
         } else {
             //password encryption
-            const encryptedPass = await bcrypt.hash(password, 10);
+            const encryptedPass = await bcrypt.hash(password, saltRounds);
             const registerQuery = 'INSERT INTO User(UserName, UserEmail, UserPassword) VALUES (?,?,?)';
             const result = await pool.query(registerQuery, [username, email, encryptedPass]);
             res.status(200).json({message: 'User registered!'});
@@ -49,36 +54,94 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     try{
-        const {email, password} = req.body;
+        const data = req.body;
+        console.log(data)
+        const user = {
+            email: data.email,
+            password: data.password
+        }
         
         const loginQuery = 'SELECT UserEmail, UserPassword FROM user WHERE UserEmail=?';
-        const rows = await pool.query(loginQuery, email)
+        const rows = await pool.query(loginQuery, user.email)
 
+        // check si le mail est inscrit
         if(rows.length === 0){
-            res.status(400).send(`User with email ${email} not found`);
-        } else {
-            const isValid = await bcrypt.compare(password, rows[0].UserPassword)
-            res.status(200).json({validPassword: isValid});
-        }   
+            res.status(400).send(`User with email ${user.email} not found`);
+        }
+
+        //check si le mot de passe est correcte
+        const isValid = await bcrypt.compare(user.password, rows[0].UserPassword)
+        if(!isValid){
+            res.status(403).json({
+                error: true,
+                message: 'Incorrect password'
+            })
+        }
+
+        //authentification par
+        const token = jwt.sign(
+            user, 
+            config.secret,
+            {
+                algorithm: "HS256",
+                expiresIn: config.tokenLife
+            }
+        )
+        const refreshToken = jwt.sign(
+            user,
+            config.refreshTokenSecret,
+            {
+                algorithm: "HS256",
+                expiresIn: config.tokenLife
+            }
+        );
+        
+        const response = { 
+            status: "Logged in",
+            token: token, 
+            refreshToken: refreshToken 
+        };
+        tokenList[refreshToken] = response;
+        res.status(200).json(response);
+        
+        
     } catch(error) {
         res.status(400).send(error.message);
     }
 });
 
-/*
-router.delete('/delete', async (req, res) => {
+router.post('/token', async (req,res) => {
     try{
-        const {email} = req.body;
-
-        const deleteProfileMutation = 'DELETE from user WHERE UserEmail=?';
-        const rows = await pool.query(deleteProfileMutation, email);
-        if (rows.length === 0){
-            res.status(200).json({message: 'User deleted!'});
+        const data = req.body;
+        if((!postData.refreshToken) || (!(postData.refreshToken in tokenList))) {
+            res.status(404).send(`Invalid request`);
         }
+        const user = {
+            email: data.email,
+            password: data.password
+        }
+        const token = jwt.sign(
+            user, 
+            config.secret,
+            {
+                algorithm: "HS256",
+                expiresIn: config.tokenLife
+            }
+        )        
+        const response = {
+            token: token
+        }
+        tokenList[data.refreshToken].token = token;
+        res.status(200).json(response);
     } catch (error) {
         res.status(400).send(error.message);
     }
-})
-*/
+});
+
+router.use(require('../helpers/tokenChecker'));
+
+router.get('/secure', (req, res) => {
+    res.status(200).send('Route secured');
+});
 
 module.exports = router;

@@ -38,6 +38,7 @@ function Register(){
         e.preventDefault();
         if(password.inputPassword === password.confirmPassword){
             registerUser();
+            window.location.href = "/login";
         }
     }
 

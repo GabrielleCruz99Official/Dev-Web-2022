@@ -1,10 +1,12 @@
 require('dotenv').config({path: '.env'});
 module.exports = {
+    name: 'session',
     key: 'userId',
     secret: process.env.SECRETSESSION,
+    refreshTokenSecret: process.env.REFRESHTOKEN,
     resave: false,
     saveUninitialized: false,
-    cookie: {
-        expires: 60 * 60 * 24
-    }
+    tokenLife: 3600,
+    refreshTokenLife: 86400,
+    expires: new Date(Date.now() + 24*60*60*1000) // 24h
 }
