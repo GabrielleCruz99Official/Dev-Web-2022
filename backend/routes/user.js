@@ -55,56 +55,57 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
     try{
         const data = req.body;
-        console.log(data)
         const user = {
             email: data.email,
             password: data.password
         }
         
-        const loginQuery = 'SELECT UserEmail, UserPassword FROM user WHERE UserEmail=?';
+        const loginQuery = 'SELECT UserName, UserEmail, UserPassword FROM user WHERE UserEmail=?';
         const rows = await pool.query(loginQuery, user.email)
 
         // check si le mail est inscrit
         if(rows.length === 0){
             res.status(400).send(`User with email ${user.email} not found`);
-        }
-
-        //check si le mot de passe est correcte
+        } else {
+            //check si le mot de passe est correcte
         const isValid = await bcrypt.compare(user.password, rows[0].UserPassword)
-        if(!isValid){
-            res.status(403).json({
-                error: true,
-                message: 'Incorrect password'
-            })
+            if(!isValid){
+                res.status(403).json({
+                    error: true,
+                    message: 'Incorrect password'
+                })
+            } else {
+                //authentification par token
+                const token = jwt.sign(
+                    user, 
+                    config.secret,
+                    {
+                        algorithm: "HS256",
+                        expiresIn: config.tokenLife
+                    }
+                )
+                const refreshToken = jwt.sign(
+                    user,
+                    config.refreshTokenSecret,
+                    {
+                        algorithm: "HS256",
+                        expiresIn: config.tokenLife
+                    }
+                );
+                
+                const response = { 
+                    status: "Logged in",
+                    user: {
+                        name: rows[0].UserName,
+                        email: rows[0].UserEmail
+                    },
+                    token: token, 
+                    refreshToken: refreshToken 
+                };
+                tokenList[refreshToken] = response;
+                res.status(200).json(response);
+            }
         }
-
-        //authentification par
-        const token = jwt.sign(
-            user, 
-            config.secret,
-            {
-                algorithm: "HS256",
-                expiresIn: config.tokenLife
-            }
-        )
-        const refreshToken = jwt.sign(
-            user,
-            config.refreshTokenSecret,
-            {
-                algorithm: "HS256",
-                expiresIn: config.tokenLife
-            }
-        );
-        
-        const response = { 
-            status: "Logged in",
-            token: token, 
-            refreshToken: refreshToken 
-        };
-        tokenList[refreshToken] = response;
-        res.status(200).json(response);
-        
-        
     } catch(error) {
         res.status(400).send(error.message);
     }
@@ -137,6 +138,10 @@ router.post('/token', async (req,res) => {
         res.status(400).send(error.message);
     }
 });
+
+router.post('/logout', (req, res) => {
+
+})
 
 router.use(require('../helpers/tokenChecker'));
 

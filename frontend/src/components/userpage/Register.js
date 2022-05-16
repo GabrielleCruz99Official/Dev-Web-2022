@@ -19,6 +19,13 @@ function Register(){
         setPassword({...password, confirmPassword: event.target.value})
     };
 
+    const pwCheck = {
+        'upper' : /[A-Z]/,
+        'lower' : /[a-z]/,
+        'special' : /[!@#$%^&]/,
+        'number' : /[0-9]/,
+    };
+
     const [validLength, setValidLength] = useState(null);
     const [hasNumber, setHasNumber] = useState(null);
     const [upperCase, setUppercase] = useState(null);
@@ -26,19 +33,53 @@ function Register(){
     const [specialChar, setSpecialChar] = useState(null);
     const [match, setMatch] = useState(null);
 
-    /* 
-            useEffect(()=>{
-        if(password.inputPassword.length === 0){
+    useEffect(() => {
+        if (pwCheck.upper.test(password.inputPassword)){
+            setUppercase(true);
         } else {
+            setUppercase(false);
         }
-    }, [password.inputPassword]);
-    */
+
+        if (pwCheck.lower.test(password.inputPassword)){
+            setLowercase(true);
+        } else {
+            setLowercase(false);
+        }
+
+        if (pwCheck.special.test(password.inputPassword)){
+            setSpecialChar(true);
+        } else {
+            setSpecialChar(false);
+        }
+
+        if (pwCheck.number.test(password.inputPassword)){
+            setHasNumber(true);
+        } else {
+            setHasNumber(false);
+        }
+
+        if (password.inputPassword.length >= 12){
+            setValidLength(true);
+        } else {
+            setValidLength(false);
+        }
+    }, [password.inputPassword])
+
+    useEffect(() => {
+        if(password.confirmPassword === password.inputPassword) {
+            setMatch(true);
+        }else{
+            setMatch(false);
+        }
+    }, [password.confirmPassword])
 
     const onSubmit = (e) => {
         e.preventDefault();
-        if(password.inputPassword === password.confirmPassword){
+        if(match && password.confirmPassword){
             registerUser();
             window.location.href = "/login";
+        } else {
+            console.log("Passwords don't match!")
         }
     }
 
@@ -98,23 +139,45 @@ function Register(){
                                 <ul className='list-group'>
                                     <li className='list-group-item'>
                                         1 Uppercase Letter
-                                        <ValidationBadge status={upperCase} />
+                                        {upperCase ? 
+                                            <span className="text-end badge bg-success rounded-pill">ok</span>
+                                            : <span className="text-end badge bg-danger rounded-pill">no</span>
+                                        }
                                     </li>
                                     <li className='list-group-item'>
                                         1 Lowercase Letter
-                                        <ValidationBadge status={lowerCase} />
+                                        {lowerCase ? 
+                                            <span className="text-end badge bg-success rounded-pill">ok</span>
+                                            : <span className="text-end badge bg-danger rounded-pill">no</span>
+                                        }                                
                                     </li>
                                     <li className='list-group-item'>
                                         1 Special Character
-                                        <ValidationBadge status={specialChar} />
+                                        {specialChar ? 
+                                            <span className="text-end badge bg-success rounded-pill">ok</span>
+                                            : <span className="text-end badge bg-danger rounded-pill">no</span>
+                                        }                                    
                                     </li>
                                     <li className='list-group-item'>
                                         1 Number    
-                                        <ValidationBadge status={hasNumber} />
+                                        {hasNumber ? 
+                                            <span className="text-end badge bg-success rounded-pill">ok</span>
+                                            : <span className="text-end badge bg-danger rounded-pill">no</span>
+                                        }                                    
                                     </li>
                                     <li className='list-group-item'>
                                         At least 12 characters
-                                        <ValidationBadge status={validLength} />
+                                        {validLength ? 
+                                            <span className="text-end badge bg-success rounded-pill">ok</span>
+                                            : <span className="text-end badge bg-danger rounded-pill">no</span>
+                                        }                                    
+                                    </li>
+                                    <li className='list-group-item'>
+                                        PasswordsMatch
+                                        {match && match.length > 0 ? 
+                                            <span className="text-end badge bg-success rounded-pill">ok</span>
+                                            : <span className="text-end badge bg-danger rounded-pill">no</span>
+                                        }                                    
                                     </li>
                                 </ul>
                             </div>
