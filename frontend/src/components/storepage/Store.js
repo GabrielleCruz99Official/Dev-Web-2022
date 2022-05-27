@@ -1,14 +1,20 @@
 import React, {useEffect, useState} from 'react';
+import Axios from 'axios';
 import { Link } from 'react-router-dom';
 import './Store.css';
 
 function Store(){
     const [products, setProducts] = useState(null);
 
+    const getProducts = async () => {
+        Axios.get("http://localhost:3001/products")
+            .then((response) => {
+                setProducts(response.data);
+        });
+    };
+
     useEffect(() => {
-        fetch('/products')
-            .then((res) => res.json())
-            .then((data) => setProducts(data));
+        getProducts();
     }, []);
 
     return(
@@ -19,22 +25,19 @@ function Store(){
                     return(
                         <div className="card bg-secondary text-center" key={index}>
                             <div className='card-body'>
-                                <h5 className="card-title">{product.name} Box</h5>
-                                <p>{product.films} film VR nasal</p>
-                                <p>Les flacons nécessaires</p>
-                                <p>1 casque en prêt</p>
-                                <p>Durée: {product.duration}</p>
-                                <Link to="/payment">
-                                    <button className="btn btn-dark btn-sm">
-                                        <strong>{product.price} €</strong>
-                                    </button>
-                                </Link>
+                                <h5 className="card-title">{product.ProductName}</h5>
+                                <p>{product.ProductDesc}</p>
+                                <button className="btn btn-dark btn-sm">
+                                    <strong>{product.ProductPrice} €</strong>
+                                </button>
                             </div>
                         </div>
                     );
                 })}
             </div>
-            <p className="text-light">Une caution de 120€. Vous sera facturé et restitué.</p>
+            <div>
+                <p className="text-light">Une caution de 120€. Vous sera facturé et restitué.</p>
+            </div>
         </div>
     )
 }

@@ -4,6 +4,11 @@ import Logo from '../../visuals/logosensoria.png';
 import './Navbar.css'
 
 function Navbar(){
+    const onClick = () => {
+        localStorage.removeItem('user');
+        window.location.href="/";
+    }
+    
     return(
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container">
@@ -19,7 +24,17 @@ function Navbar(){
                 <Link className="links" to="/store">S'abonner</Link>
                 <Link className="links" to="/contact">Contactez-nous</Link>
                 <Link className="links" to="/demo">Exemples du BOX</Link>
-                <Link className="links" to="/client">Espace Client</Link>
+                {localStorage.user && 
+                    <>
+                        <Link className="links" to="/users">Espace Client</Link> 
+                        <Link className="links" to="/" onClick={onClick}>Deconnexion</Link>
+                    </>
+                }
+                {!localStorage.user && 
+                    <>
+                        <Link className="links" to="/login">Connexion</Link>
+                    </>
+                }
             </div>
         </nav>
     )
