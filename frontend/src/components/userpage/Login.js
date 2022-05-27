@@ -12,9 +12,10 @@ function Login(){
             email: email,
             password: password,
         }).then((response) => {
-            if(response.data.token)
-            localStorage.setItem("user", JSON.stringify(response.data));
-            window.location.href="/";
+            if(response.data.token) {
+                localStorage.setItem("user", JSON.stringify(response.data));
+                window.location.href="/";
+            }
         })
     }
     

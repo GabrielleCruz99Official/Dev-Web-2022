@@ -46,7 +46,6 @@ router.post('/register', async (req, res) => {
             const result = await pool.query(registerQuery, [username, email, encryptedPass]);
             res.status(200).json({message: 'User registered!'});
         }
-
     } catch (error) {
         res.status(400).send(error.message);
     }
