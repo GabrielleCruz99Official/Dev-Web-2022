@@ -1,29 +1,51 @@
 const express = require("express");
+const dotenv = require('dotenv');
+
+dotenv.config({path: '.env'});
+
+const bodyParser = require("body-parser");
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const config = require('./config/auth.conf')
+const cors = require("cors");
+
+const users = require('./routes/user');
+const products = require('./routes/product');
 
 const PORT = process.env.PORT || 3001;
-
+const corsOptions = {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    credentials: true,
+}
 const app = express();
 
-app.get('/', (req, res) => {
-    res.json({ message: "Home Page" });
+/**
+ * Middleware
+ */
+//permet l'usage des cookies
+app.use(cookieParser());
+//Cross-Origin Request
+app.use(cors(corsOptions));
+//permet le parsing de data du type json
+app.use(express.json());
+//permet le parsing d'url de type x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
+//permet l'utilisation des sessions
+app.use(session(config));
+
+/* API */
+
+// CALL API INDEX
+app.get("/", (req, res)=>{
+    res.status(200).json({ message: "Hi! This is the API! Go to /users to load users from database!" });
 });
 
-app.get("/api", (req, res)=>{
-    res.json({ message: "Hi! This is the API!" });
-});
-
-app.get("/products", (req, res) => {
-    res.json({ message: "Products List" });
-});
-
-//à revoir
-app.post("/register", (req, res) =>{
-    res.json({ message: "Register" });
-});
-
-app.post("login", (req, res) => {
-    res.json({ message: "Login" });
-});
+/**
+ * Routes
+ */
+app.use('/users', users);
+app.use('/products', products);
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);

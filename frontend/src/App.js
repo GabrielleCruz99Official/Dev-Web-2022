@@ -1,29 +1,27 @@
-import React, { useEffect, useState } from "react";
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import { Routes, Route } from 'react-router-dom';
+import About from './components/About';
+import Store from './components/storepage/Store';
+import FrontPage from './components/frontpage/FrontPage';
+import UserHub from './components/userpage/UserHub';
+import Login from './components/userpage/Login';
+import Register from './components/userpage/Register';
 
 function App() {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    fetch('/api')
-    .then((res) => res.json())
-    .then((data) => setData(data.message))
-    .catch(err => {console.log("Loading error.")});
-  }, []);
-
   return (
     <div className="App">
-      <nav className="navbar navbar-light">
-        <a href="/">Home</a>
-        <a href="/products">Products</a>
-        <a href="/store">Store</a>
-        <a href="/register">Register</a>
-      </nav>
-      <div>
-        <h1>Hello!</h1>
-        <h2>{!data ? "Loading..." : data}</h2>
-      </div>
+      <Routes>
+        <Route exact path="/" element={<FrontPage/>} />
+        <Route path="/about" element={<About/>} />
+        <Route path="/store" element={<Store/>} />
+        <Route path="/users" element={<UserHub/>} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/contact" element={<FrontPage/>} />
+        <Route path="/demo" element={<FrontPage/>} />
+        <Route path="/register" element={<Register/>} />
+        <Route path="/payment" element={<FrontPage/>} />
+      </Routes>
     </div>
   );
 }
