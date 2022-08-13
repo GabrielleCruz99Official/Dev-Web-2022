@@ -42,6 +42,9 @@
   },
   "devDependencies": {
     "concurrently": "^7.2.2",
+    "eslint": ">=5.16.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-react": "^7.30.1",
     "mariadb": "^3.0.0"
   }
 }
