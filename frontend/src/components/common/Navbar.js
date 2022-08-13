@@ -27,6 +27,7 @@ function Navbar(){
                 {localStorage.user && 
                     <>
                         <Link className="links" to="/users">Espace Client</Link> 
+                        <Link className="links" to="/basket">Panier</Link>
                         <Link className="links" to="/" onClick={onClick}>Deconnexion</Link>
                     </>
                 }

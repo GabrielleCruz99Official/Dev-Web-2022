@@ -1,10 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useId} from 'react';
 import Axios from 'axios';
 //import { Link } from 'react-router-dom';
 import './Store.css';
 
 function Store(){
     const [products, setProducts] = useState(null);
+    const [basketItems, setBasketItems] = useState(null);
+    const [basketId, setBasketId] = useState(useId());
     //const [hasError, setError] = useState(false);
 
     const getProducts = async () => {
@@ -19,9 +21,27 @@ function Store(){
         */
     };
 
+    const getBasketItems = async () => {
+        Axios.get("http://localhost:3001/basket")
+        .then((response) => {
+            setBasketItems(response.data);
+        });
+    }
+
     useEffect(() => {
         getProducts();
+        getBasketItems();
     }, []);
+
+    const addToBasket = async (productId) => {
+        Axios.post('http://localhost:3001/basket',
+        {
+            basketID: basketId,
+            productID: productId,
+        }).then((response) => {
+            console.log(response)
+        });
+    };
 
     return(
         <div className="App bg-dark">
@@ -33,7 +53,8 @@ function Store(){
                             <div className='card-body'>
                                 <h5 className="card-title">{product.ProductName}</h5>
                                 <p>{product.ProductDesc}</p>
-                                <button className="btn btn-dark btn-sm">
+                                <button className="btn btn-dark btn-sm"
+                                    onClick={addToBasket(product.ProductID)}>
                                     <strong>{product.ProductPrice} €</strong>
                                 </button>
                             </div>
