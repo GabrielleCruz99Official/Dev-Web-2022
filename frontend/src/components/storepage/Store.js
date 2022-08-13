@@ -1,16 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import Axios from 'axios';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import './Store.css';
 
 function Store(){
     const [products, setProducts] = useState(null);
+    //const [hasError, setError] = useState(false);
 
     const getProducts = async () => {
         Axios.get("http://localhost:3001/products")
             .then((response) => {
                 setProducts(response.data);
         });
+        /*
+        .catch((error) => {
+            setError(error);
+        });
+        */
     };
 
     useEffect(() => {
