@@ -50,3 +50,12 @@ CREATE TABLE Subscription(
     PRIMARY KEY (SubscriptionID),
     FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
 );
+
+CREATE TABLE AdminUser (
+    AdminUserID int NOT NULL AUTO_INCREMENT,
+    AdminUserName varchar(60),
+    AdminUserEmail varchar(60),
+    AdminUserPassword varchar(60),
+    AdminAcces boolean,
+    PRIMARY KEY (AdminUserID)  
+);
