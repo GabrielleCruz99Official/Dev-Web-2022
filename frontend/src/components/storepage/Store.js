@@ -1,40 +1,37 @@
-import React, {useEffect, useState, useId} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import Axios from 'axios';
-//import { Link } from 'react-router-dom';
+import IdGenerator from '../common/IdGenerator';
 import './Store.css';
 
 function Store(){
     const [products, setProducts] = useState(null);
-    const [basketItems, setBasketItems] = useState(null);
-    const [basketId, setBasketId] = useState(useId());
-    //const [hasError, setError] = useState(false);
+    const [basketId, setBasketId] = useState(() => {
+        const checkBasketId = localStorage.getItem('basketId');
+        return checkBasketId ? parseInt(checkBasketId) : 0;
+    });
+
+    const checkBasketId = () => {
+        if (basketId === 0) {
+            const newBasketId = IdGenerator();
+            setBasketId(newBasketId);
+            localStorage.setItem('basketId', newBasketId);
+        }
+    }
 
     const getProducts = async () => {
         Axios.get("http://localhost:3001/products")
             .then((response) => {
                 setProducts(response.data);
         });
-        /*
-        .catch((error) => {
-            setError(error);
-        });
-        */
     };
-
-    const getBasketItems = async () => {
-        Axios.get("http://localhost:3001/basket")
-        .then((response) => {
-            setBasketItems(response.data);
-        });
-    }
 
     useEffect(() => {
         getProducts();
-        getBasketItems();
+        checkBasketId();
     }, []);
 
     const addToBasket = async (productId) => {
-        Axios.post('http://localhost:3001/basket',
+        Axios.post('http://localhost:3001/basket/item',
         {
             basketID: basketId,
             productID: productId,
@@ -54,7 +51,7 @@ function Store(){
                                 <h5 className="card-title">{product.ProductName}</h5>
                                 <p>{product.ProductDesc}</p>
                                 <button className="btn btn-dark btn-sm"
-                                    onClick={addToBasket(product.ProductID)}>
+                                    onClick={() => {addToBasket(product.ProductID)}}>
                                     <strong>{product.ProductPrice} €</strong>
                                 </button>
                             </div>
