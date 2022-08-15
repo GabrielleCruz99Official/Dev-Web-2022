@@ -11,6 +11,7 @@ function Store(){
         const checkBasketId = localStorage.getItem('basketId');
         return checkBasketId ? parseInt(checkBasketId) : 0;
     });
+    const [cart, setCart] = useState({});
 
     const checkBasketId = () => {
         if (basketId === 0) {
@@ -32,14 +33,14 @@ function Store(){
         checkBasketId();
     }, []);
 
-    const addToBasket = async (productId) => {
-        Axios.post(`${BASKET_URL}/${basketId}`,
-        {
-            productID: productId,
-        }).then((response) => {
-            console.log(response)
-        });
-    };
+    const addToCart = (storeItem) => {
+        if(window.confirm("Confirmez-vous de prendre ce produit?")){
+            setCart(storeItem);
+            localStorage.setItem('cart', cart);
+            console.log("Added to cart!");
+            //redirect to order page
+        }
+    }
 
     return(
         <div className="App bg-dark">
@@ -52,7 +53,7 @@ function Store(){
                                 <h5 className="card-title">{product.ProductName}</h5>
                                 <p>{product.ProductDesc}</p>
                                 <button className="btn btn-dark btn-sm"
-                                    onClick={() => {addToBasket(product.ProductID)}}>
+                                    onClick={() => {addToCart(product)}}>
                                     <strong>{product.ProductPrice} €</strong>
                                 </button>
                             </div>

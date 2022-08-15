@@ -47,7 +47,6 @@ router.put('/:id', async (req, res) => {
     try{
         const basketID = req.params.id;
         const {productID} = req.body;
-        console.log(productID);
 
         if (productID){
             const checkProductQuery = 'SELECT * FROM basket WHERE ProductID=? AND BasketID=?';

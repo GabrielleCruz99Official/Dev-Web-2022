@@ -41,7 +41,6 @@ function Basket(){
     }
 
     const removeItemFromBasket = async (productId) => {
-        console.log(productId);
         Axios.put(`${BASKET_URL}/${basketId}`,
         {
             productID: productId,
@@ -50,6 +49,14 @@ function Basket(){
             getBasketItems();
         });
     }
+
+    const clearBasket = async () => {
+        Axios.delete(`${BASKET_URL}/${basketId}`)
+        .then((response) => {
+            console.log(response.data);
+            getBasketItems();
+        });
+    };
 
     const proceedToCheckout = async () => {
         await Axios.post()
@@ -85,6 +92,7 @@ function Basket(){
             </div>
             <div>
                 <p>Subtotal: {basketSubtotal}€</p>
+                <button onClick={clearBasket}>Vider mon panier</button>
                 <button onClick={() => {}}>Passer au paiement?</button>
                 <button onClick={
                     () => {
