@@ -10,45 +10,23 @@ router.get('/', async (req, res) => {
     } catch (error) {
         res.status(400).send(error.message);
     }
-})
-
-// will remove this from router to prevent mass removal of baskets
-router.delete('/', async (req, res) => {
-    try{
-        const clearBasketQuery = 'DELETE FROM Basket';
-        const rows =  await pool.query(clearBasketQuery);
-        res.status(200).json({message: "Basket cleared."});
-    } catch (error) {
-        res.status(400).send(error.message);
-    }
-})
+});
 
 router.get('/:id', async (req, res) => {
     try {
         const basketId = req.params.id;
-        console.log(basketId);
         const basketQuery = "SELECT B.BasketID, B.ProductID, P.ProductName, P.ProductPrice FROM Basket as B INNER JOIN Products as P ON B.ProductID=P.ProductID WHERE BasketID=?";
         const rows = await pool.query(basketQuery, basketId);
         res.status(200).json(rows);
     } catch (error) {
         res.status(400).send(error.message);
     }
-})
+});
 
-router.delete('/:id', async (req, res) => {
+router.post('/:id', async(req, res) => {
     try{
-        const basketId = req.params.id;
-        const clearBasketQuery = 'DELETE FROM Basket WHERE BasketID=?';
-        const rows =  await pool.query(clearBasketQuery, basketId);
-        res.status(200).json({message: "Basket cleared."});
-    } catch (error) {
-        res.status(400).send(error.message);
-    }
-})
-
-router.post('/item', async(req, res) => {
-    try{
-        const {basketID, productID} = req.body;
+        const basketID = req.params.id;
+        const {productID} = req.body;
 
         const checkProductQuery = 'SELECT * FROM basket WHERE ProductID=? AND BasketID=?';
         const basketRows = await pool.query(checkProductQuery, [productID, basketID]);
@@ -63,22 +41,40 @@ router.post('/item', async(req, res) => {
     } catch (error) {
         res.status(400).send(error.message);
     }
-})
+});
 
-router.delete('/item', async(req, res) => {
+router.put('/:id', async (req, res) => {
     try{
-        const {basketID, productID} = req.body;
+        const basketID = req.params.id;
+        const {productID} = req.body;
+        console.log(productID);
 
-        const checkProductQuery = 'SELECT * FROM basket WHERE ProductID=? AND BasketID=?';
-        const basketRows = await pool.query(checkProductQuery, [productID, basketID]);
+        if (productID){
+            const checkProductQuery = 'SELECT * FROM basket WHERE ProductID=? AND BasketID=?';
+            const basketRows = await pool.query(checkProductQuery, [productID, basketID]);
 
-        if(basketRows.length == 0){
-            res.status(400).json({message: ""});
+            if(basketRows.length == 0){
+                res.status(400).json({message: "Item not found in basket!"});
+            } else {
+                const removeFromBasketQuery = 'DELETE FROM Basket WHERE ProductID=? AND BasketID=?';
+                const result = await pool.query(removeFromBasketQuery, [productID, basketID]);
+                res.status(200).json({message: 'Item removed from basket!'});
+            }
         } else {
-            const removeFromBasketQuery = 'DELETE FROM Basket WHERE ProductID=? AND BasketID=?';
-            const result = await pool.query(removeFromBasketQuery, [basketID, productID]);
-            res.status(200).json({message: 'Item removed from basket!'});
+            res.status(400).json({message: 'Product doesn\'t exist.'})
         }
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+});
+
+router.delete('/:id', async (req, res) => {
+    try{
+        const basketID = req.params.id;
+
+        const clearBasketQuery = 'DELETE FROM Basket WHERE BasketID=?';
+        const rows =  await pool.query(clearBasketQuery, basketID);
+        res.status(200).json({message: "Your basket has been cleared."});
     } catch (error) {
         res.status(400).send(error.message);
     }

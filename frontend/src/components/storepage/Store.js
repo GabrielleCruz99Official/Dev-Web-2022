@@ -1,7 +1,9 @@
 import React, {useEffect, useState, useRef} from 'react';
 import Axios from 'axios';
 import IdGenerator from '../common/IdGenerator';
+import '../utils/Constants';
 import './Store.css';
+import { BASKET_URL, PRODUCT_URL } from '../utils/Constants';
 
 function Store(){
     const [products, setProducts] = useState(null);
@@ -19,7 +21,7 @@ function Store(){
     }
 
     const getProducts = async () => {
-        Axios.get("http://localhost:3001/products")
+        Axios.get(PRODUCT_URL)
             .then((response) => {
                 setProducts(response.data);
         });
@@ -31,9 +33,8 @@ function Store(){
     }, []);
 
     const addToBasket = async (productId) => {
-        Axios.post('http://localhost:3001/basket/item',
+        Axios.post(`${BASKET_URL}/${basketId}`,
         {
-            basketID: basketId,
             productID: productId,
         }).then((response) => {
             console.log(response)

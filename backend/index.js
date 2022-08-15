@@ -16,7 +16,7 @@ const basket = require('./routes/basket');
 const PORT = process.env.PORT || 3001;
 const corsOptions = {
     origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
 }
 const app = express();
