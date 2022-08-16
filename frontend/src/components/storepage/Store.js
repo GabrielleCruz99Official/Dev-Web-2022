@@ -3,7 +3,7 @@ import Axios from 'axios';
 import IdGenerator from '../common/IdGenerator';
 import '../utils/Constants';
 import './Store.css';
-import { BASKET_URL, PRODUCT_URL } from '../utils/Constants';
+import { PRODUCT_URL } from '../utils/Constants';
 
 function Store(){
     const [products, setProducts] = useState(null);
@@ -11,6 +11,7 @@ function Store(){
         const checkBasketId = localStorage.getItem('basketId');
         return checkBasketId ? parseInt(checkBasketId) : 0;
     });
+    const [passToCheckout, setPassToCheckout] = useState(false);
     const [cart, setCart] = useState({});
 
     const checkBasketId = () => {
@@ -23,8 +24,8 @@ function Store(){
 
     const getProducts = async () => {
         Axios.get(PRODUCT_URL)
-            .then((response) => {
-                setProducts(response.data);
+        .then((response) => {
+            setProducts(response.data);
         });
     };
 
@@ -33,14 +34,19 @@ function Store(){
         checkBasketId();
     }, []);
 
-    const addToCart = (storeItem) => {
+    const addToCart = async (storeItem) => {
         if(window.confirm("Confirmez-vous de prendre ce produit?")){
+            setPassToCheckout(true);
             setCart(storeItem);
-            localStorage.setItem('cart', cart);
-            console.log("Added to cart!");
-            //redirect to order page
         }
     }
+
+    useEffect(() => {
+        if(passToCheckout){
+            localStorage.setItem('cart', JSON.stringify(cart));
+            window.location.href="/basket";
+        }
+    }, [cart])
 
     return(
         <div className="App bg-dark">

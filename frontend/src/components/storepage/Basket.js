@@ -5,58 +5,25 @@ import '../utils/Constants';
 import { BASKET_URL } from '../utils/Constants';
 
 function Basket(){
-    const [basketItems, setBasketItems] = useState([]);
+    const [basketItem, setBasketItem] = useState(() => {
+        const cart = JSON.parse(localStorage.getItem('cart'));
+        console.log(cart);
+        return cart ? cart : null
+    });
     const [basketId, setBasketId] = useState(() => {
         const checkBasketId = localStorage.getItem('basketId');
-        return checkBasketId ? parseInt(checkBasketId) : 0;
-    });
-    const [passToCheckout, setPassToCheckout] = useState(() => {
-        const checkPassToCheckout = localStorage.getItem('passToCheckout');
-        return checkPassToCheckout ? true : false;
+        return checkBasketId ? parseInt(checkBasketId) : IdGenerator();
     });
     const [basketSubtotal, setBasketSubtotal] = useState(0);
 
-    const checkBasketId = () => {
-        if (passToCheckout === true){
-            passToCheckout.current = false;
-            localStorage.setItem('basketId', basketId);
-            basketId.current = 0;
-        }
-        if (basketId.current === 0) basketId.current = IdGenerator();
-    }
-
-    const getBasketItems = async () => {
-        Axios.get(`${BASKET_URL}/${basketId}`)
-        .then((response) => {
-            setBasketItems(response.data);
-            getBasketSubtotal();
-        });
-    }
-
     const getBasketSubtotal = async () => {
-        let subtotal = basketItems.map(item => item).reduce((subtotal, basketItem) => {
-            return (subtotal += parseInt(basketItem.ProductPrice))
-        }, 0);
-        setBasketSubtotal(subtotal);
-    }
-
-    const removeItemFromBasket = async (productId) => {
-        Axios.put(`${BASKET_URL}/${basketId}`,
-        {
-            productID: productId,
-        }).then((response) => {
-            console.log(response.data);
-            getBasketItems();
-        });
+        setBasketSubtotal(parseInt(basketItem.ProductPrice));
     }
 
     const clearBasket = async () => {
-        Axios.delete(`${BASKET_URL}/${basketId}`)
-        .then((response) => {
-            console.log(response.data);
-            getBasketItems();
-        });
-    };
+        setBasketItem({});
+        localStorage.removeItem('cart');
+    };    
 
     const proceedToCheckout = async () => {
         await Axios.post()
@@ -65,35 +32,46 @@ function Basket(){
         })
     }
 
+    const reload = async () => {
+    
+    }
+
     useEffect(() => {
-        checkBasketId();
-        getBasketItems();
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
     }, []);
 
     useEffect(() => {
-        getBasketSubtotal();
-    }, [basketItems])
+        reload();
+    }, [basketItem])
 
     return(
         <div className="App">
             <h1 className="store-title">Panier</h1>
             <div className="item">
-                {basketItems && basketItems.map((item, index) => {
-                    return(
-                        <div className="card bg-secondary text-center" key={index}>
+                {!basketItem &&
+                    <>
+                        <p> Votre panier est vide! </p>
+                    </>
+                }
+                {basketItem && 
+                    <>
+                        <div className="card bg-secondary text-left">
                             <div className='card-body'>
-                                <h5 className="card-title">{item.ProductName}</h5>
-                                <p>{item.ProductPrice}€</p>
-                                <button onClick={() => {removeItemFromBasket(item.ProductID)}}>Supprimer</button>
+                                <h5 className="card-title">{basketItem.ProductName}</h5>
+                                <p>{basketItem.ProductPrice}€</p>
+                                <button onClick={clearBasket}>Supprimer</button>
                             </div>
+                            <hr/>
+                            <div>
+                                <p>Subtotal: {basketSubtotal}€</p>
+                                <button onClick={() => {}}>Confirmer mon panier</button>
+                            </div>  
                         </div>
-                    );
-                })}
+                    </>
+                }
             </div>
+            <hr/>
             <div>
-                <p>Subtotal: {basketSubtotal}€</p>
-                <button onClick={clearBasket}>Vider mon panier</button>
-                <button onClick={() => {}}>Passer au paiement?</button>
                 <button onClick={
                     () => {
                         window.location.href="/store"
