@@ -11,7 +11,8 @@ const cors = require("cors");
 
 const users = require('./routes/user');
 const products = require('./routes/product');
-const basket = require('./routes/basket');
+const addresses = require('./routes/address');
+const sessions = require('./routes/sessions'); 
 
 const PORT = process.env.PORT || 3001;
 const corsOptions = {
@@ -46,8 +47,9 @@ app.get("/", (req, res)=>{
  * Routes
  */
 app.use('/users', users);
+app.use('/sessions', sessions);
 app.use('/products', products);
-app.use('/basket', basket);
+app.use('/address', addresses);
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);

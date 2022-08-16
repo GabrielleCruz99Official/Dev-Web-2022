@@ -8,7 +8,7 @@ function Login(){
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        Axios.post('http://localhost:3001/users/login', {
+        await Axios.post('http://localhost:3001/sessions', {
             email: email,
             password: password,
         }).then((response) => {

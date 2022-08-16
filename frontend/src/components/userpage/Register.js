@@ -33,6 +33,11 @@ function Register(){
     const [specialChar, setSpecialChar] = useState(null);
     const [match, setMatch] = useState(null);
 
+    const [isRedirected, setIsRedirected] = useState(() => {
+        const prompt = JSON.parse(localStorage.getItem('isRedirected'));
+        return prompt ? true : false;
+    })
+
     useEffect(() => {
         if (pwCheck.upper.test(password.inputPassword)){
             setUppercase(true);
@@ -77,23 +82,39 @@ function Register(){
         e.preventDefault();
         if(match && password.confirmPassword){
             registerUser();
-            window.location.href = "/login";
+            if(isRedirected){
+                loginUser();
+            } else {
+                window.location.href = "/login";
+            }
         } else {
             console.log("Passwords don't match!")
         }
     }
 
     const registerUser = async () => {
-        Axios.post('http://localhost:3001/users/register',
+        Axios.post('http://localhost:3001/users',
         {
             username: usernameReg,
             email: userEmailReg,
             password: password.confirmPassword,
         }).then((response)=>{
             console.log(response)
-        })
+        });
     }
 
+    const loginUser = async () => {
+        await Axios.post('http://localhost:3001/sessions', {
+            email: userEmailReg,
+            password: password.confirmPassword,
+        }).then((response) => {
+            if(response.data.token) {
+                localStorage.setItem("user", JSON.stringify(response.data));
+                localStorage.setItem("isRedirected", false);
+                window.location.href="/basket";
+            }
+        })
+    }
     return(
         <>
             <div className="App">

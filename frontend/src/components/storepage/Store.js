@@ -13,6 +13,10 @@ function Store(){
     });
     const [passToCheckout, setPassToCheckout] = useState(false);
     const [cart, setCart] = useState({});
+    const [isAuthenticated, setIsAuthenticated] = useState(() => {
+        const access = JSON.parse(localStorage.getItem('user'));
+        return access ? true : false;
+    });
 
     const checkBasketId = () => {
         if (basketId === 0) {
@@ -44,7 +48,12 @@ function Store(){
     useEffect(() => {
         if(passToCheckout){
             localStorage.setItem('cart', JSON.stringify(cart));
-            window.location.href="/basket";
+            if(!isAuthenticated){
+                localStorage.setItem('isRedirected', true);
+                window.location.href='/register';
+            } else {
+                window.location.href="/basket";
+            }
         }
     }, [cart])
 

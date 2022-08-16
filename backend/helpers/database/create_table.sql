@@ -34,14 +34,6 @@ CREATE TABLE Orders (
     FOREIGN KEY (UserID) REFERENCES User(UserID)
 );
 
-CREATE TABLE Basket (
-    ItemNo int NOT NULL AUTO_INCREMENT,
-    BasketID int,
-    ProductID int,
-    PRIMARY KEY (ItemNo),
-    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
-);
-
 CREATE TABLE Subscription(
     SubscriptionID int NOT NULL AUTO_INCREMENT,
     ProductID int,

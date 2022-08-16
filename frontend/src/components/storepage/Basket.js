@@ -2,12 +2,12 @@ import React, {useEffect, useState} from 'react';
 import Axios from 'axios';
 import IdGenerator from '../common/IdGenerator';
 import '../utils/Constants';
-import { BASKET_URL } from '../utils/Constants';
+import './Basket.css';
+import { ADDRESS_URL } from '../utils/Constants';
 
 function Basket(){
     const [basketItem, setBasketItem] = useState(() => {
         const cart = JSON.parse(localStorage.getItem('cart'));
-        console.log(cart);
         return cart ? cart : null
     });
     const [basketId, setBasketId] = useState(() => {
@@ -15,6 +15,16 @@ function Basket(){
         return checkBasketId ? parseInt(checkBasketId) : IdGenerator();
     });
     const [basketSubtotal, setBasketSubtotal] = useState(0);
+    const [address, setAddress] = useState({});
+    
+    const getAddress = async () => {
+        const userProfile = JSON.parse(localStorage.getItem('user'));
+        const userEmail = userProfile.user.email;
+        await Axios.get(`http://localhost:3001/address/${userEmail}`)
+        .then((response) => {
+            setAddress(response.data);
+        })
+    };
 
     const getBasketSubtotal = async () => {
         setBasketSubtotal(parseInt(basketItem.ProductPrice));
@@ -32,16 +42,12 @@ function Basket(){
         })
     }
 
-    const reload = async () => {
-    
-    }
-
-    useEffect(() => {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+    useEffect(() => {                                
+        getAddress();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
     }, []);
 
     useEffect(() => {
-        reload();
+        getBasketSubtotal();
     }, [basketItem])
 
     return(
@@ -56,22 +62,42 @@ function Basket(){
                 {basketItem && 
                     <>
                         <div className="card bg-secondary text-left">
-                            <div className='card-body'>
+                            <div className='card-body basket'>
                                 <h5 className="card-title">{basketItem.ProductName}</h5>
                                 <p>{basketItem.ProductPrice}€</p>
-                                <button onClick={clearBasket}>Supprimer</button>
                             </div>
-                            <hr/>
                             <div>
                                 <p>Subtotal: {basketSubtotal}€</p>
-                                <button onClick={() => {}}>Confirmer mon panier</button>
                             </div>  
                         </div>
                     </>
                 }
             </div>
-            <hr/>
+            <h1>Livraison</h1>
+            <div className="item">
+                {!address &&
+                    <>
+                        <p> Vous n'avez pas encore mis votre adresse de livraison! </p>
+                    </>
+                }
+                {address && 
+                    <>
+                        <div className="card bg-secondary text-left">
+                            <div className='card-body basket'>
+                                <h5 className="card-title">Adresse</h5>
+                                <p>{address.Street}</p>
+                                <p>{address.Postcode} {address.City}</p>
+                            </div>
+                            <div>
+                                <button onClick={() => {}}>Modifier votre adresse</button>
+                            </div>  
+                        </div>
+                    </>
+                }
+            </div>
+            <br/>
             <div>
+                <button onClick={() => {}}>Confirmer mon panier</button>
                 <button onClick={
                     () => {
                         window.location.href="/store"

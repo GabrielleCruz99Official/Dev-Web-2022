@@ -28,7 +28,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.post('/register', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const {username, email, password} = req.body;
         
@@ -50,99 +50,6 @@ router.post('/register', async (req, res) => {
         res.status(400).send(error.message);
     }
 });
-
-router.post('/login', async (req, res) => {
-    try{
-        const data = req.body;
-        const user = {
-            email: data.email,
-            password: data.password
-        }
-        
-        const loginQuery = 'SELECT UserName, UserEmail, UserPassword FROM user WHERE UserEmail=?';
-        const rows = await pool.query(loginQuery, user.email)
-
-        // check si le mail est inscrit
-        if(rows.length === 0){
-            res.status(400).send(`User with email ${user.email} not found`);
-        } else {
-            //check si le mot de passe est correcte
-        const isValid = await bcrypt.compare(user.password, rows[0].UserPassword)
-            if(!isValid){
-                res.status(403).json({
-                    error: true,
-                    message: 'Incorrect password'
-                })
-            } else {
-                //authentification par token
-                const token = jwt.sign(
-                    user, 
-                    config.secret,
-                    {
-                        algorithm: "HS256",
-                        expiresIn: config.tokenLife
-                    }
-                )
-                const refreshToken = jwt.sign(
-                    user,
-                    config.refreshTokenSecret,
-                    {
-                        algorithm: "HS256",
-                        expiresIn: config.tokenLife
-                    }
-                );
-                
-                const response = { 
-                    status: "Logged in",
-                    user: {
-                        name: rows[0].UserName,
-                        email: rows[0].UserEmail
-                    },
-                    token: token, 
-                    refreshToken: refreshToken 
-                };
-                tokenList[refreshToken] = response;
-                res.status(200).json(response);
-            }
-        }
-    } catch(error) {
-        res.status(400).send(error.message);
-    }
-});
-
-router.post('/token', async (req,res) => {
-    try{
-        const data = req.body;
-        if((!postData.refreshToken) || (!(postData.refreshToken in tokenList))) {
-            res.status(404).send(`Invalid request`);
-        }
-        const user = {
-            email: data.email,
-            password: data.password
-        }
-        const token = jwt.sign(
-            user, 
-            config.secret,
-            {
-                algorithm: "HS256",
-                expiresIn: config.tokenLife
-            }
-        )        
-        const response = {
-            token: token
-        }
-        tokenList[data.refreshToken].token = token;
-        res.status(200).json(response);
-    } catch (error) {
-        res.status(400).send(error.message);
-    }
-});
-
-router.post('/logout', (req, res) => {
-
-})
-
-router.use(require('../helpers/tokenChecker'));
 
 router.get('/secure', (req, res) => {
     res.status(200).send('Route secured');
