@@ -3,12 +3,12 @@ import Axios from 'axios';
 import IdGenerator from '../common/IdGenerator';
 import '../utils/Constants';
 import './Basket.css';
-import { ADDRESS_URL } from '../utils/Constants';
+import { ADDRESS_URL, ORDER_URL } from '../utils/Constants';
 
 function Basket(){
     const [basketItem, setBasketItem] = useState(() => {
         const cart = JSON.parse(localStorage.getItem('cart'));
-        return cart ? cart : null
+        return cart ? cart : {}
     });
     const [basketId, setBasketId] = useState(() => {
         const checkBasketId = localStorage.getItem('basketId');
@@ -16,10 +16,10 @@ function Basket(){
     });
     const [basketSubtotal, setBasketSubtotal] = useState(0);
     const [address, setAddress] = useState({});
+    const userProfile = JSON.parse(localStorage.getItem('user'));
     
     const getAddress = async () => {
-        const userProfile = JSON.parse(localStorage.getItem('user'));
-        const userEmail = userProfile.user.email;
+        const userEmail = userProfile.email;
         await Axios.get(`http://localhost:3001/address/${userEmail}`)
         .then((response) => {
             setAddress(response.data);
@@ -36,9 +36,14 @@ function Basket(){
     };    
 
     const proceedToCheckout = async () => {
-        await Axios.post()
+        await Axios.post(ORDER_URL, {
+            userId: userProfile.id,
+            productId: basketItem.ProductID
+        })
         .then((response) => {
-
+            console.log("Checkout complete!");
+            localStorage.removeItem('cart');
+            window.location.href="/";
         })
     }
 
@@ -54,12 +59,12 @@ function Basket(){
         <div className="App">
             <h1 className="store-title">Panier</h1>
             <div className="item">
-                {!basketItem &&
+                {Object.keys(basketItem).length < 1 &&
                     <>
                         <p> Votre panier est vide! </p>
                     </>
                 }
-                {basketItem && 
+                {Object.keys(basketItem).length >= 1 && 
                     <>
                         <div className="card bg-secondary text-left">
                             <div className='card-body basket'>
@@ -78,6 +83,7 @@ function Basket(){
                 {!address &&
                     <>
                         <p> Vous n'avez pas encore mis votre adresse de livraison! </p>
+                        <button>Ajouter une adresse de livraison</button>
                     </>
                 }
                 {address && 
@@ -97,7 +103,7 @@ function Basket(){
             </div>
             <br/>
             <div>
-                <button onClick={() => {}}>Confirmer mon panier</button>
+                <button onClick={proceedToCheckout}>Confirmer mon panier</button>
                 <button onClick={
                     () => {
                         window.location.href="/store"

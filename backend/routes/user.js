@@ -31,16 +31,12 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         const {username, email, password} = req.body;
-        
-        //check if username or email is already registered
-        // insert code here
         const checkEmailQuery = 'SELECT UserEmail FROM user WHERE UserEmail=?';
         const emailRows = await pool.query(checkEmailQuery, email);
         
         if(emailRows.length > 0){
             res.status(400).json({message: 'Email already registered'});
         } else {
-            //password encryption
             const encryptedPass = await bcrypt.hash(password, saltRounds);
             const registerQuery = 'INSERT INTO User(UserName, UserEmail, UserPassword) VALUES (?,?,?)';
             const result = await pool.query(registerQuery, [username, email, encryptedPass]);

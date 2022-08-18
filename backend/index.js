@@ -13,6 +13,7 @@ const users = require('./routes/user');
 const products = require('./routes/product');
 const addresses = require('./routes/address');
 const sessions = require('./routes/sessions'); 
+const orders = require('./routes/order')
 
 const PORT = process.env.PORT || 3001;
 const corsOptions = {
@@ -25,16 +26,11 @@ const app = express();
 /**
  * Middleware
  */
-//permet l'usage des cookies
-app.use(cookieParser());
-//Cross-Origin Request
 app.use(cors(corsOptions));
-//permet le parsing de data du type json
 app.use(express.json());
-//permet le parsing d'url de type x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
-//permet l'utilisation des sessions
 app.use(session(config));
+app.use(cookieParser());
 
 /* API */
 
@@ -50,6 +46,8 @@ app.use('/users', users);
 app.use('/sessions', sessions);
 app.use('/products', products);
 app.use('/address', addresses);
+app.use('/orders', orders);
+//app.use(require('../helpers/tokenChecker'));
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);

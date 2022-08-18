@@ -78,50 +78,30 @@ function Register(){
         }
     }, [password.confirmPassword])
 
-    const onSubmit = (e) => {
-        e.preventDefault();
+    const registerUser = async () => {
         if(match && password.confirmPassword){
-            registerUser();
-            if(isRedirected){
-                loginUser();
-            } else {
-                window.location.href = "/login";
-            }
+            await Axios.post('http://localhost:3001/users',
+                {
+                    username: usernameReg,
+                    email: userEmailReg,
+                    password: password.confirmPassword,
+                }).then((response)=>{
+                    console.log(response)
+                    window.location.href="/login";
+            });
         } else {
             console.log("Passwords don't match!")
         }
+        
     }
 
-    const registerUser = async () => {
-        Axios.post('http://localhost:3001/users',
-        {
-            username: usernameReg,
-            email: userEmailReg,
-            password: password.confirmPassword,
-        }).then((response)=>{
-            console.log(response)
-        });
-    }
-
-    const loginUser = async () => {
-        await Axios.post('http://localhost:3001/sessions', {
-            email: userEmailReg,
-            password: password.confirmPassword,
-        }).then((response) => {
-            if(response.data.token) {
-                localStorage.setItem("user", JSON.stringify(response.data));
-                localStorage.setItem("isRedirected", false);
-                window.location.href="/basket";
-            }
-        })
-    }
     return(
         <>
             <div className="App">
                 <div className="card bg-secondary">
                     <h4 className="card-title">Register</h4>
                     <div className="card-body d-flex justify-content-center from-container">
-                        <form onSubmit={onSubmit}>
+                        <form>
                             <div className="input-group mb-3">
                                 <input 
                                     type="text" className="form-control" 
@@ -205,7 +185,7 @@ function Register(){
                             <Link className="links" to="/login">
                                 <p>Have an account? Click here to login.</p>
                             </Link>
-                            <input className="btn btn-primary" type="submit" value="Register"/>
+                            <input className="btn btn-primary" type="button" value="Register" onClick={registerUser}/>
                         </form>
                     </div>
                 </div>

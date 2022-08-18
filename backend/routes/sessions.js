@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
             password: data.password
         }
         
-        const loginQuery = 'SELECT UserName, UserEmail, UserPassword FROM user WHERE UserEmail=?';
+        const loginQuery = 'SELECT UserID, UserName, UserEmail, UserPassword FROM user WHERE UserEmail=?';
         const rows = await pool.query(loginQuery, user.email)
         if(rows.length === 0){
             res.status(400).send(`User with email ${user.email} not found`);
@@ -44,9 +44,25 @@ router.post('/', async (req, res) => {
                         expiresIn: config.tokenLife
                     }
                 );
-                
+                return res
+                .cookie("access_token", token, {
+                    httpOnly: true,
+                    secure: true,
+                    expires: config.cookieLife,
+                    sameSite: 'strict'
+                })
+                .status(200)
+                .json({ 
+                    message: "Logged in successfully 😊 👌",
+                    user: {
+                        id: rows[0].UserID,
+                        name: rows[0].UserName,
+                        email: rows[0].UserEmail
+                    },
+                });
+                /*
                 const response = { 
-                    status: "Logged in",
+                    status: 200,
                     user: {
                         name: rows[0].UserName,
                         email: rows[0].UserEmail
@@ -55,7 +71,14 @@ router.post('/', async (req, res) => {
                     refreshToken: refreshToken 
                 };
                 tokenList[refreshToken] = response;
-                res.status(200).json(response);
+                res.cookie("token", response.token, {
+                    secure: true,
+                    httpOnly: true,
+                    expires: config.cookieLife
+                });
+                
+                res.send("SUCCESS");
+                */
             }
         }
     } catch (error) {
@@ -63,6 +86,7 @@ router.post('/', async (req, res) => {
     }
 });
 
+/*
 router.post('/token', async (req,res) => {
     try{
         const data = req.body;
@@ -90,10 +114,21 @@ router.post('/token', async (req,res) => {
         res.status(400).send(error.message);
     }
 });
+*/
 
 router.delete('/', (req, res) => {
-
+    try{
+        console.log("Is this working?");
+        res.clearCookie("access_token", {path: "/"});
+        return res.end();
+    } catch (error) {
+        res.status(400).json({message: "Cookie isn't cleared"})
+    }
 })
+
+router.get('/protected', (req,res) => {
+    return res.json({ user: { id: req.id }});
+});
 
 router.use(require('../helpers/tokenChecker'));
 

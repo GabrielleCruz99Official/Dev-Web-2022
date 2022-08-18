@@ -29,9 +29,13 @@ CREATE TABLE Address (
 CREATE TABLE Orders (
     OrderID int NOT NULL AUTO_INCREMENT,
     UserID int,
-    Subtotal float,
+    ProductID int,
+    wasPaid boolean DEFAULT false,
+    wasDelivered boolean DEFAULT false,
+    wasReturned boolean DEFAULT false,
     PRIMARY KEY (OrderID),
-    FOREIGN KEY (UserID) REFERENCES User(UserID)
+    FOREIGN KEY (UserID) REFERENCES User(UserID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
 );
 
 CREATE TABLE Subscription(
