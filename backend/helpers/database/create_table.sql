@@ -29,16 +29,12 @@ CREATE TABLE Address (
 CREATE TABLE Orders (
     OrderID int NOT NULL AUTO_INCREMENT,
     UserID int,
-    Subtotal float,
-    PRIMARY KEY (OrderID),
-    FOREIGN KEY (UserID) REFERENCES User(UserID)
-);
-
-CREATE TABLE Basket (
-    ItemNo int NOT NULL AUTO_INCREMENT,
-    BasketID int,
     ProductID int,
-    PRIMARY KEY (ItemNo),
+    wasPaid boolean DEFAULT false,
+    wasDelivered boolean DEFAULT false,
+    wasReturned boolean DEFAULT false,
+    PRIMARY KEY (OrderID),
+    FOREIGN KEY (UserID) REFERENCES User(UserID),
     FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
 );
 
@@ -49,4 +45,13 @@ CREATE TABLE Subscription(
     SubscriptionEnd date,
     PRIMARY KEY (SubscriptionID),
     FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+CREATE TABLE AdminUser (
+    AdminUserID int NOT NULL AUTO_INCREMENT,
+    AdminUserName varchar(60),
+    AdminUserEmail varchar(60),
+    AdminUserPassword varchar(60),
+    AdminAcces boolean,
+    PRIMARY KEY (AdminUserID)  
 );

@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/auth.conf');
 
 module.exports = (req, res, next) => {
-    const token = req.body.token || req.query.token || req.headers['x-access-token']
+    const token = req.cookies.access_token;
     
     if(!token){
         return res.status(403).send({
@@ -11,14 +11,19 @@ module.exports = (req, res, next) => {
         });
     }
 
-    jwt.verify(token, config.secret, function(err, decoded) {
-        if(err) {
-            res.status(401).json({
-                error: true,
-                message: 'Unauthorized access'
-            });
-        }
-        req.decoded = decoded;
-        next();
-    })
+    try {
+        jwt.verify(token, config.secret, function(err, decoded) {
+            if(err) {
+                res.status(401).json({
+                    error: true,
+                    message: 'Unauthorized access'
+                });
+            }
+            req.decoded = decoded;
+            req.id = data.id;
+            return next();
+        })
+    } catch {
+        return res.sendStatus(403);
+    }
 }

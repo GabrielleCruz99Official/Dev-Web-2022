@@ -7,6 +7,7 @@ import FrontPage from './components/frontpage/FrontPage';
 import UserHub from './components/userpage/UserHub';
 import Login from './components/userpage/Login';
 import Register from './components/userpage/Register';
+import Basket from './components/storepage/Basket';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/demo" element={<FrontPage/>} />
         <Route path="/register" element={<Register/>} />
         <Route path="/payment" element={<FrontPage/>} />
+        <Route path="/basket" element={<Basket/>} />
       </Routes>
     </div>
   );
