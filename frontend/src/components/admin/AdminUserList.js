@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import { Button, Modal, Form } from 'react-bootstrap';
 import React, {useEffect, useState} from 'react';
 import '../utils/Constants';
 import { USER_URL } from '../utils/Constants';
@@ -6,12 +7,25 @@ import { USER_URL } from '../utils/Constants';
 function AdminUserList() {
     const [users, setUsers] = useState([]);
 
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     const getUsers = async () => {
         await Axios.get(USER_URL)
         .then((response) => {
             setUsers(response.data)
         });
     };
+
+    const deleteUser = async (userId) => {
+        if(window.confirm("Do you wish to delete the user?")){
+            await Axios.delete(`${USER_URL}/${userId}`)
+            .then((response) => {
+                getUsers();
+            });
+        }
+    }
     
     useEffect(() => {
       getUsers();  
@@ -21,7 +35,7 @@ function AdminUserList() {
         <>
             <div>
                 <h1>Home</h1>
-                <table>
+                <table className="text-center">
                     <thead>
                         <tr>
                             <th>UserID</th>
@@ -50,8 +64,7 @@ function AdminUserList() {
                                     <td>{user.UserEmail}</td>
                                     <td>{user.Address}</td>
                                     <td>
-                                        <button>Modify</button>
-                                        <button>Delete</button>
+                                        <Button variant="danger" onClick={() => {deleteUser(user.UserID)}}>Delete</Button>
                                     </td>
                                 </tr>
                             );
