@@ -37,7 +37,6 @@ function Navbar(){
                 <Link className="links" to="/">Notre Concept</Link>
                 <Link className="links" to="/store">S'abonner</Link>
                 <Link className="links" to="/contact">Contactez-nous</Link>
-                <Link className="links" to="/demo">Exemples du BOX</Link>
                 {isLoggedIn && 
                     <>
                         <Link className="links" to="/users">Espace Client</Link> 
