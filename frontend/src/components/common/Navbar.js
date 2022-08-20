@@ -1,13 +1,27 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../visuals/logosensoria.png';
-import './Navbar.css'
+import './Navbar.css';
+import '../utils/Constants';
+import Axios from 'axios';
+import { AXIOS_CONFIGURATION } from '../utils/Constants';
 
 function Navbar(){
-    const onClick = () => {
-        localStorage.removeItem('user');
-        window.location.href="/";
+
+    const onClick = async () => {
+        await Axios.delete("http://localhost:3001/sessions", {}, AXIOS_CONFIGURATION)
+        .then((response) => {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('cart');
+            localStorage.removeItem('user');
+            window.location.href="/";
+        })
     }
+
+    const [isLoggedIn, setIsLoggedIn] = useState(() => {
+        const check = localStorage.getItem('isLoggedIn');
+        return check ? true : false;
+    });
     
     return(
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -24,13 +38,14 @@ function Navbar(){
                 <Link className="links" to="/store">S'abonner</Link>
                 <Link className="links" to="/contact">Contactez-nous</Link>
                 <Link className="links" to="/demo">Exemples du BOX</Link>
-                {localStorage.user && 
+                {isLoggedIn && 
                     <>
                         <Link className="links" to="/users">Espace Client</Link> 
+                        <Link className="links" to="/basket">Panier</Link>
                         <Link className="links" to="/" onClick={onClick}>Deconnexion</Link>
                     </>
                 }
-                {!localStorage.user && 
+                {!isLoggedIn && 
                     <>
                         <Link className="links" to="/login">Connexion</Link>
                     </>

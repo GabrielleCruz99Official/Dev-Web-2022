@@ -1,6 +1,8 @@
 import React, {useState} from "react";
 import { Link } from "react-router-dom";
+import '../utils/Constants';
 import Axios from 'axios';
+import { AXIOS_CONFIGURATION } from "../utils/Constants";
 
 function Login(){
     const [email, setUserEmail] = useState('');
@@ -8,12 +10,14 @@ function Login(){
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        Axios.post('http://localhost:3001/users/login', {
+        await Axios.post('http://localhost:3001/sessions', {
             email: email,
             password: password,
-        }).then((response) => {
-            if(response.data.token) {
-                localStorage.setItem("user", JSON.stringify(response.data));
+        }, AXIOS_CONFIGURATION).then((response) => {
+            const test = document.cookie.indexOf('access_token');
+            if(test){
+                localStorage.setItem("isLoggedIn", true);
+                localStorage.setItem("user", JSON.stringify(response.data.user));
                 window.location.href="/";
             }
         })
