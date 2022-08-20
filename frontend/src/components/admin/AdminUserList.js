@@ -1,20 +1,20 @@
 import Axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import '../utils/Constants';
-import { ORDER_URL } from '../utils/Constants';
+import { USER_URL } from '../utils/Constants';
 
-function AdminDashboard() {
-    const [orders, setOrders] = useState([]);
+function AdminUserList() {
+    const [users, setUsers] = useState([]);
 
-    const getOrders = async () => {
-        await Axios.get(ORDER_URL)
+    const getUsers = async () => {
+        await Axios.get(USER_URL)
         .then((response) => {
-            setOrders(response.data)
+            setUsers(response.data)
         });
     };
     
     useEffect(() => {
-      getOrders();  
+      getUsers();  
     }, []);
 
     return(
@@ -24,10 +24,10 @@ function AdminDashboard() {
                 <table>
                     <thead>
                         <tr>
-                            <th>OrderID</th>
-                            <th>Product</th>
-                            <th>User</th>
-                            <th>User Address</th>
+                            <th>UserID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Address</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -35,20 +35,20 @@ function AdminDashboard() {
                         {/*
                             insert data here through backend
                         */}
-                        {orders.length === 0 &&
+                        {users.length === 0 &&
                             <tr>
                                 <td colSpan={5}>
                                     No data found. Please reload.
                                 </td>
                             </tr>
                         }
-                        {orders && orders.map((order, index) => {
+                        {users && users.map((user, index) => {
                             return(
                                 <tr key={index}>
-                                    <td>{order.OrderID}</td>
-                                    <td>{order.ProductName}</td>
-                                    <td>{order.UserName}</td>
-                                    <td>{order.Address}</td>
+                                    <td>{user.UserID}</td>
+                                    <td>{user.UserName}</td>
+                                    <td>{user.UserEmail}</td>
+                                    <td>{user.Address}</td>
                                     <td>
                                         <button>Modify</button>
                                         <button>Delete</button>
@@ -63,4 +63,4 @@ function AdminDashboard() {
     )
 }
 
-export default AdminDashboard;
+export default AdminUserList;

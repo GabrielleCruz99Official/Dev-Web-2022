@@ -11,7 +11,8 @@ import Login from './components/userpage/Login';
 import Register from './components/userpage/Register';
 import Basket from './components/storepage/Basket';
 import AdminDashboard from './components/admin/AdminDashboard';
-import AdminLogin from './components/admin/AdminLogin';
+//import AdminLogin from './components/admin/AdminLogin';
+import AdminUserList from './components/admin/AdminUserList';
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
         </Route>
         <Route element={<WithAdminNavbar/>}>
           <Route path="/admin" element={<AdminDashboard/>} />
-          <Route path="/admin/login" element={<AdminLogin/>} />
+          <Route path="/admin/users" element={<AdminUserList/>} />
         </Route>
       </Routes>
     </div>
