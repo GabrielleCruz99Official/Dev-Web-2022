@@ -35,7 +35,11 @@ router.post('/', async (req, res) => {
     const sendToOrderQuery = 'INSERT INTO Orders(UserID, ProductID, OrderDate) \
     VALUES (?,?,?)';
     const result = await pool.query(sendToOrderQuery, [userId, productId, currentDate]);
-    res.status(200).json({message: 'Order successfully placed!'});
+
+    const getLastOrderQuery = 'SELECT OrderID FROM Orders WHERE UserID=? ORDER BY OrderID DESC';
+    const orderIdQuery = await pool.query(getLastOrderQuery, userId);
+
+    res.status(200).json({message: 'Order successfully placed!', data: orderIdQuery[0]});
   } catch (error) {
     res.status(400).send(error.message);
   }
