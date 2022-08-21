@@ -1,27 +1,32 @@
 import React, {useEffect, useState} from 'react';
 import Axios from 'axios';
 import IdGenerator from '../common/IdGenerator';
+import { Button } from 'react-bootstrap';
 import '../utils/Constants';
 import './Basket.css';
 import { ADDRESS_URL, ORDER_URL } from '../utils/Constants';
+import BasketAddressModal from './BasketAddressModal';
 
 function Basket(){
     const [basketItem, setBasketItem] = useState(() => {
         const cart = JSON.parse(localStorage.getItem('cart'));
         return cart ? cart : {}
     });
+
     const [basketId, setBasketId] = useState(() => {
         const checkBasketId = localStorage.getItem('basketId');
         return checkBasketId ? parseInt(checkBasketId) : IdGenerator();
     });
     const [basketSubtotal, setBasketSubtotal] = useState(0);
     const [address, setAddress] = useState({});
+    const [hasAddress, setHasAddress] = useState(false);
     const userProfile = JSON.parse(localStorage.getItem('user'));
     
     const getAddress = async () => {
-        const userEmail = userProfile.email;
-        await Axios.get(`http://localhost:3001/address/${userEmail}`)
+        const userId = userProfile.id;
+        await Axios.get(`http://localhost:3001/address/${userId}`)
         .then((response) => {
+            setHasAddress(response.data ? true : false);
             setAddress(response.data);
         })
     };
@@ -80,13 +85,17 @@ function Basket(){
             </div>
             <h1>Livraison</h1>
             <div className="item">
-                {!address &&
+                {!hasAddress &&
                     <>
                         <p> Vous n'avez pas encore mis votre adresse de livraison! </p>
-                        <button>Ajouter une adresse de livraison</button>
+                        <BasketAddressModal 
+                            hasAddress={hasAddress}
+                            userId={userProfile.id}
+                            getAddress={getAddress}
+                        />
                     </>
                 }
-                {address && 
+                {hasAddress && 
                     <>
                         <div className="card bg-secondary text-left">
                             <div className='card-body basket'>
@@ -94,21 +103,24 @@ function Basket(){
                                 <p>{address.Street}</p>
                                 <p>{address.Postcode} {address.City}</p>
                             </div>
-                            <div>
-                                <button onClick={() => {}}>Modifier votre adresse</button>
-                            </div>  
+                            <BasketAddressModal 
+                                address={address}
+                                hasAddress={hasAddress}
+                                userId={userProfile.id}
+                                getAddress={getAddress}
+                            />
                         </div>
                     </>
                 }
             </div>
             <br/>
             <div>
-                <button onClick={proceedToCheckout}>Confirmer mon panier</button>
-                <button onClick={
+                <Button variant="success" onClick={proceedToCheckout}>Confirmer mon panier</Button>
+                <Button onClick={
                     () => {
                         window.location.href="/store"
                     }
-                }>Retour au magasin</button>
+                }>Retour au magasin</Button>
             </div>
         </div>
     );
