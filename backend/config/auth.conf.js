@@ -8,5 +8,6 @@ module.exports = {
     saveUninitialized: false,
     tokenLife: 3600,
     refreshTokenLife: 86400,
-    expires: new Date(Date.now() + 24*60*60*1000) // 24h
+    expires: new Date(Date.now() + 24*60*60*1000), // 24h
+    cookieLife: new Date(Date.now() + 30*60*1000) // 30 mins
 }
