@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import WithNavbar from './components/utils/WithNavbar';
 import WithoutNavbar from './components/utils/WithoutNavbar';
 import WithAdminNavbar from './components/utils/WithAdminNavbar';
@@ -11,9 +12,9 @@ import Login from './components/userpage/Login';
 import Register from './components/userpage/Register';
 import Basket from './components/storepage/Basket';
 import AdminDashboard from './components/admin/AdminDashboard';
-//import AdminLogin from './components/admin/AdminLogin';
 import AdminUserList from './components/admin/AdminUserList';
 import AdminProductsList from './components/admin/products/AdminProductList';
+import NotFound from './components/utils/NotFound';
 
 function App() {
   return (
@@ -27,8 +28,8 @@ function App() {
           <Route exact path="/" element={<FrontPage/>} />
           <Route path="/store" element={<Store/>} />
           <Route path="/users" element={<UserHub/>} />
-          <Route path="/contact" element={<FrontPage/>} />
-          <Route path="/payment" element={<FrontPage/>} />
+          <Route path="/contact" element={<NotFound/>} />
+          <Route path="/payment" element={<NotFound/>} />
           <Route path="/basket" element={<Basket/>} />        
         </Route>
         <Route element={<WithAdminNavbar/>}>

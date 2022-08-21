@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import '../utils/Constants';
 import Axios from 'axios';
-import { AXIOS_CONFIGURATION } from "../utils/Constants";
+import { AXIOS_CONFIGURATION, LOGIN_URL } from "../utils/Constants";
 
 function Login(){
     const [email, setUserEmail] = useState('');
@@ -10,7 +10,7 @@ function Login(){
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        await Axios.post('http://localhost:3001/sessions', {
+        await Axios.post(`${LOGIN_URL}`, {
             email: email,
             password: password,
         }, AXIOS_CONFIGURATION).then((response) => {

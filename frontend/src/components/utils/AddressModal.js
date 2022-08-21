@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import Axios from 'axios';
 import { Button, Modal, Form, Row, Col } from 'react-bootstrap';
-import { ADDRESS_URL } from '../utils/Constants';
+import { ADDRESS_URL } from './Constants';
 
-function BasketAddressModal(props){
+function AddressModal(props){
     const address = props.address ? props.address : {};
     const hasAddress = props.hasAddress;
     const userId = props.userId;
@@ -117,4 +117,4 @@ function BasketAddressModal(props){
     )
 }
 
-export default BasketAddressModal;
+export default AddressModal;

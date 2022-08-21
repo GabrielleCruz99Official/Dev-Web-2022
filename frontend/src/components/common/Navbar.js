@@ -4,12 +4,12 @@ import Logo from '../../visuals/logosensoria.png';
 import './Navbar.css';
 import '../utils/Constants';
 import Axios from 'axios';
-import { AXIOS_CONFIGURATION } from '../utils/Constants';
+import { AXIOS_CONFIGURATION, LOGIN_URL } from '../utils/Constants';
 
 function Navbar(){
 
     const onClick = async () => {
-        await Axios.delete("http://localhost:3001/sessions", {}, AXIOS_CONFIGURATION)
+        await Axios.delete(`${LOGIN_URL}`, {}, AXIOS_CONFIGURATION)
         .then((response) => {
             localStorage.removeItem('isLoggedIn');
             localStorage.removeItem('cart');

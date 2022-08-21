@@ -2,10 +2,9 @@ import React, {useEffect, useState} from 'react';
 import Axios from 'axios';
 import IdGenerator from '../common/IdGenerator';
 import { Button } from 'react-bootstrap';
-import '../utils/Constants';
 import './Basket.css';
 import { ADDRESS_URL, ORDER_URL } from '../utils/Constants';
-import BasketAddressModal from './BasketAddressModal';
+import AddressModal from '../utils/AddressModal';
 
 function Basket(){
     const [basketItem, setBasketItem] = useState(() => {
@@ -24,7 +23,7 @@ function Basket(){
     
     const getAddress = async () => {
         const userId = userProfile.id;
-        await Axios.get(`http://localhost:3001/address/${userId}`)
+        await Axios.get(`${ADDRESS_URL}/${userId}`)
         .then((response) => {
             setHasAddress(response.data ? true : false);
             setAddress(response.data);
@@ -88,7 +87,7 @@ function Basket(){
                 {!hasAddress &&
                     <>
                         <p> Vous n'avez pas encore mis votre adresse de livraison! </p>
-                        <BasketAddressModal 
+                        <AddressModal 
                             hasAddress={hasAddress}
                             userId={userProfile.id}
                             getAddress={getAddress}
@@ -103,7 +102,7 @@ function Basket(){
                                 <p>{address.Street}</p>
                                 <p>{address.Postcode} {address.City}</p>
                             </div>
-                            <BasketAddressModal 
+                            <AddressModal 
                                 address={address}
                                 hasAddress={hasAddress}
                                 userId={userProfile.id}

@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:orderId', async (req, res) => {
-  const orderId = req.params.id;
+  const orderId = req.params.orderId;
   // const {userId} = req.body;
   const orderQuery = 'SELECT * FROM Orders WHERE OrderID=?';
   const result = await pool.query(orderQuery, orderId);
@@ -21,7 +21,7 @@ router.get('/:orderId', async (req, res) => {
 });
 
 router.get('/:userId', async (req, res) => {
-  const userId = req.params.id;
+  const userId = req.params.userId;
   // const {userId} = req.body;
   const orderQuery = 'SELECT * FROM Orders WHERE OrderID=?';
   const result = await pool.query(orderQuery, userId);
