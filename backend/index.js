@@ -47,7 +47,6 @@ app.use('/sessions', sessions);
 app.use('/products', products);
 app.use('/address', addresses);
 app.use('/orders', orders);
-// app.use(require('../helpers/tokenChecker'));
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);

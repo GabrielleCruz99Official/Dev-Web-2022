@@ -11,8 +11,7 @@ function AdminNavbar() {
                 <div className="container">
                     <Link to="/admin">Home</Link>
                     <Link to="/admin/users">Users</Link>
-                    <Link to="#">Products</Link>
-                    <Link to="#">Settings</Link>
+                    <Link to="/admin/products">Products</Link>
                 </div>
             </nav>
         </>

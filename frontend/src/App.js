@@ -13,6 +13,7 @@ import Basket from './components/storepage/Basket';
 import AdminDashboard from './components/admin/AdminDashboard';
 //import AdminLogin from './components/admin/AdminLogin';
 import AdminUserList from './components/admin/AdminUserList';
+import AdminProductsList from './components/admin/products/AdminProductList';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route element={<WithAdminNavbar/>}>
           <Route path="/admin" element={<AdminDashboard/>} />
           <Route path="/admin/users" element={<AdminUserList/>} />
+          <Route path="/admin/products" element={<AdminProductsList/>} />
         </Route>
       </Routes>
     </div>

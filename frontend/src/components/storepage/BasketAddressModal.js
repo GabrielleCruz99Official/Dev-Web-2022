@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Axios from 'axios';
 import { Button, Modal, Form, Row, Col } from 'react-bootstrap';
 import { ADDRESS_URL } from '../utils/Constants';
