@@ -10,6 +10,8 @@ export const LOGIN_URL = `http://localhost:3001/sessions`;
 
 export const ORDER_URL = `http://localhost:3001/orders`;
 
+export const FACTURE_URL = `http://localhost:3001/facture`;
+
 export const AXIOS_CONFIGURATION = {
     withCredentials: true,
     headers: {

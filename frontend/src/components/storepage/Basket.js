@@ -3,8 +3,9 @@ import Axios from 'axios';
 import IdGenerator from '../common/IdGenerator';
 import { Button } from 'react-bootstrap';
 import './Basket.css';
-import { ADDRESS_URL, ORDER_URL } from '../utils/Constants';
+import { ADDRESS_URL, ORDER_URL, FACTURE_URL} from '../utils/Constants';
 import AddressModal from '../utils/AddressModal';
+
 
 function Basket(){
     const [basketItem, setBasketItem] = useState(() => {
@@ -37,18 +38,28 @@ function Basket(){
     const clearBasket = async () => {
         setBasketItem({});
         localStorage.removeItem('cart');
-    };    
+    };
+    const factureCheckout = async (param) =>{
+        await Axios.post(`${FACTURE_URL}/${param}`)
+            .then((response) => {
+                localStorage.removeItem('cart');
+                window.location.href="/";
+            })
+    };
 
     const proceedToCheckout = async () => {
+        let orderId = 0;
         await Axios.post(ORDER_URL, {
             userId: userProfile.id,
             productId: basketItem.ProductID
         })
-        .then((response) => {
-            console.log("Checkout complete!");
-            localStorage.removeItem('cart');
-            window.location.href="/";
-        })
+            .then(async (response) => {
+                console.log("Checkout complete!");
+                orderId = response.data.data.OrderID;
+            })
+        factureCheckout(orderId);
+        localStorage.removeItem('cart');
+        window.location.href="/";
     }
 
     useEffect(() => {                                

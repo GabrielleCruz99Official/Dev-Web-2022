@@ -45,7 +45,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-
 router.patch('/:id', async (req, res) => {
   try {
     const orderId = req.params.id;
