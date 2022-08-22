@@ -86,13 +86,13 @@ function Register(){
                     email: userEmailReg,
                     password: password.confirmPassword,
                 }).then((response)=>{
-                    console.log(response)
-                    window.location.href="/login";
+                console.log(response)
+                window.location.href="/login";
             });
         } else {
             console.log("Passwords don't match!")
         }
-        
+
     }
 
     return(
@@ -103,82 +103,82 @@ function Register(){
                     <div className="card-body d-flex justify-content-center from-container">
                         <form>
                             <div className="input-group mb-3">
-                                <input 
-                                    type="text" className="form-control" 
+                                <input
+                                    type="text" className="form-control"
                                     placeholder="Username"
-                                    aria-label="Username" 
+                                    aria-label="Username"
                                     onChange={(e) => {
                                         setUsernameReg(e.target.value);
                                     }}
                                 />
                             </div>
                             <div className="input-group mb-3">
-                                <input 
-                                    type="text" className="form-control" 
+                                <input
+                                    type="text" className="form-control"
                                     placeholder="Email"
-                                    aria-label="Email" 
+                                    aria-label="Email"
                                     onChange={(e) => {
                                         setUserEmailReg(e.target.value);
                                     }}
                                 />
                             </div>
                             <div className="input-group mb-3">
-                                <input type="password" className="form-control" 
-                                    placeholder="Password"  
-                                    aria-label="Password"
-                                    onChange={setInputPassword}
+                                <input type="password" className="form-control"
+                                       placeholder="Password"
+                                       aria-label="Password"
+                                       onChange={setInputPassword}
                                 />
                             </div>
                             <div className="input-group mb-3">
-                                <input type="password" className="form-control" 
-                                    placeholder="Confirm Password"  
-                                    aria-label="Confirm Password"
-                                    onChange={setConfirmPassword}
+                                <input type="password" className="form-control"
+                                       placeholder="Confirm Password"
+                                       aria-label="Confirm Password"
+                                       onChange={setConfirmPassword}
                                 />
                             </div>
                             <div>
                                 <ul className='list-group'>
                                     <li className='list-group-item'>
                                         1 Uppercase Letter
-                                        {upperCase ? 
+                                        {upperCase ?
                                             <span className="text-end badge bg-success rounded-pill">ok</span>
                                             : <span className="text-end badge bg-danger rounded-pill">no</span>
                                         }
                                     </li>
                                     <li className='list-group-item'>
                                         1 Lowercase Letter
-                                        {lowerCase ? 
+                                        {lowerCase ?
                                             <span className="text-end badge bg-success rounded-pill">ok</span>
                                             : <span className="text-end badge bg-danger rounded-pill">no</span>
-                                        }                                
+                                        }
                                     </li>
                                     <li className='list-group-item'>
                                         1 Special Character
-                                        {specialChar ? 
+                                        {specialChar ?
                                             <span className="text-end badge bg-success rounded-pill">ok</span>
                                             : <span className="text-end badge bg-danger rounded-pill">no</span>
-                                        }                                    
+                                        }
                                     </li>
                                     <li className='list-group-item'>
-                                        1 Number    
-                                        {hasNumber ? 
+                                        1 Number
+                                        {hasNumber ?
                                             <span className="text-end badge bg-success rounded-pill">ok</span>
                                             : <span className="text-end badge bg-danger rounded-pill">no</span>
-                                        }                                    
+                                        }
                                     </li>
                                     <li className='list-group-item'>
                                         At least 12 characters
-                                        {validLength ? 
+                                        {validLength ?
                                             <span className="text-end badge bg-success rounded-pill">ok</span>
                                             : <span className="text-end badge bg-danger rounded-pill">no</span>
-                                        }                                    
+                                        }
                                     </li>
                                     <li className='list-group-item'>
                                         PasswordsMatch
-                                        {match && match.length > 0 ? 
+                                        {match && match.length > 0 ?
                                             <span className="text-end badge bg-success rounded-pill">ok</span>
                                             : <span className="text-end badge bg-danger rounded-pill">no</span>
-                                        }                                    
+                                        }
                                     </li>
                                 </ul>
                             </div>

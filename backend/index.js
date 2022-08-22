@@ -12,6 +12,7 @@ const cors = require('cors');
 const users = require('./routes/user');
 const products = require('./routes/product');
 const addresses = require('./routes/address');
+const facture = require('./routes/facture');
 const sessions = require('./routes/sessions');
 const orders = require('./routes/order');
 
@@ -46,6 +47,7 @@ app.use('/users', users);
 app.use('/sessions', sessions);
 app.use('/products', products);
 app.use('/address', addresses);
+app.use('/facture', facture);
 app.use('/orders', orders);
 // app.use(require('../helpers/tokenChecker'));
 
