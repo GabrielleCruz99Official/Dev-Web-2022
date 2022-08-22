@@ -34,7 +34,8 @@ function AdminUserList() {
     return(
         <>
             <div>
-                <h1>Home</h1>
+                <h1>users</h1>
+                <Button variant="primary" onClick={getUsers}>Refresh</Button>
                 <table className="text-center">
                     <thead>
                         <tr>

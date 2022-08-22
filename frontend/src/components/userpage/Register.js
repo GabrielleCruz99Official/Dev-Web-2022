@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import Axios from 'axios';
-import ValidationBadge from './ValidationBadge';
+import {USER_URL} from '../utils/Constants'
 
 function Register(){
     const [usernameReg, setUsernameReg] = useState('');
@@ -80,7 +80,7 @@ function Register(){
 
     const registerUser = async () => {
         if(match && password.confirmPassword){
-            await Axios.post('http://localhost:3001/users',
+            await Axios.post(`${USER_URL}`,
                 {
                     username: usernameReg,
                     email: userEmailReg,
